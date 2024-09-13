@@ -8,7 +8,7 @@
 </head>
 <body>
 	<form action="controlador" method="post">
-	 
+	 	<input type="hidden" name="acao" value="registerCustomer">
 		Digite seu nome: <input type="text" name="nome-cliente"  /> <br> <br>
 		Digite seu endereco: <input type="text" name="endereco-cliente"><br> <br>
 		Digite seu telefone: <input type="text" name="telefone-cliente"  /> <br> <br>

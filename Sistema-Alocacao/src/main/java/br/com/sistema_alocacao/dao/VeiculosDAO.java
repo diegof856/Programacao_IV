@@ -1,10 +1,10 @@
 package br.com.sistema_alocacao.dao;
 
+import br.com.sistema_alocacao.model.Veiculo;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.sistema_alocacao.model.Veiculo;
 
 public class VeiculosDAO {
 
@@ -22,7 +22,7 @@ public class VeiculosDAO {
 		return VeiculosDAO.veiculos;
 	}
 
-	public void criarConta(Veiculo novoVeiculo) {
+	public void criarVeiculo(Veiculo novoVeiculo) {
 		VeiculosDAO.veiculos.add(novoVeiculo);
 	}
 	

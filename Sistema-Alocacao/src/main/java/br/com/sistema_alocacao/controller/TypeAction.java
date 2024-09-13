@@ -1,8 +1,9 @@
 package br.com.sistema_alocacao.controller;
 
-import java.io.IOException;
 
-import jakarta.servlet.ServletException;
+
+import javax.servlet.ServletException;
+import java.io.IOException;
 
 public interface TypeAction {
 	void execute() throws ServletException, IOException;

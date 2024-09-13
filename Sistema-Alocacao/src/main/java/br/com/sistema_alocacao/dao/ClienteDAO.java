@@ -1,9 +1,9 @@
 package br.com.sistema_alocacao.dao;
 
+import br.com.sistema_alocacao.model.Cliente;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.sistema_alocacao.model.Cliente;
 
 public class ClienteDAO {
 
