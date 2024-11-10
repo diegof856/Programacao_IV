@@ -1,39 +1,25 @@
 package com.programacao_III.Previsao_Tempo.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WeatherConditions {
-    @JsonProperty("id")
-    private  Long id;
-    @JsonProperty("description")
+
+    // O campo 'description' armazena a descrição da condição do clima, como "Céu limpo", "Chuvoso", etc.
+    @JsonProperty("Condição Esperada")  // Define o nome do campo no JSON como "Condição Esperada"
+    @JsonAlias({"description"})  // Permite que o campo 'description' seja mapeado a partir do JSON como 'description'
     private String description;
-    @JsonProperty("main")
-    private String main;
-    @JsonProperty("icon")
-    private String icon;
 
-    public WeatherConditions(){};
+    // Construtor padrão
+    public WeatherConditions() {}
 
-    public WeatherConditions(Long id, String description, String icon, String main) {
-        this.id = id;
+    // Construtor com parâmetro para inicializar a descrição
+    public WeatherConditions(String description) {
         this.description = description;
-        this.icon = icon;
-        this.main = main;
     }
 
-    public Long getId() {
-        return id;
-    }
-
+    // Método getter para acessar a descrição do clima
     public String getDescription() {
         return description;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public String getMain() {
-        return main;
     }
 }
