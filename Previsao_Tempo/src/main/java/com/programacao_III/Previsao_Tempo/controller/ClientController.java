@@ -33,23 +33,23 @@ public class ClientController {
 
     // Endpoint GET para buscar as previsões climáticas paginadas de uma cidade
     // Recebe o nome da cidade na URL e os parâmetros de página (page) e tamanho da página (pageSize)
-    @GetMapping("/pagination/{nameCity}/forecasts")
-    public ResponseEntity<ForecastFourDaysLimitationResponseDTO> getPaginationForecast(@PathVariable String nameCity,
+    @GetMapping("/{nameCity}/forecasts")
+    public ResponseEntity<ForecastFourDaysLimitationResponseDTO> getForecast(@PathVariable String nameCity,
                                                                                        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int pageSize)
     {
         // Cria um objeto Pageable para controlar a paginação dos resultados
         Pageable pageable = PageRequest.of(page, pageSize);
         // Chama o serviço para obter as previsões paginadas e retorna a resposta com status 200 (OK)
-        return ResponseEntity.ok(service.getPaginationForecast(nameCity, pageable));
+        return ResponseEntity.ok(service.getForecast(nameCity, pageable));
     }
 
     // Endpoint GET para buscar as previsões climáticas para os próximos 4 dias de uma cidade
     // Recebe o nome da cidade na URL.
-    @GetMapping("/{nameCity}/forecasts")
-    public ResponseEntity<ForecastFourDaysResponseDTO> getForecast(@PathVariable String nameCity)
+    @GetMapping("/{nameCity}/allforecasts")
+    public ResponseEntity<ForecastFourDaysResponseDTO> getAllForecast(@PathVariable String nameCity)
     {
         // Chama o serviço para obter as previsões para os próximos 4 dias e retorna a resposta com status 200 (OK)
-        return ResponseEntity.ok(service.getForecastFourDays(nameCity));
+        return ResponseEntity.ok(service.getAllForecastFourDays(nameCity));
     }
 
     // Endpoint GET para buscar a temperatura atual de uma cidade

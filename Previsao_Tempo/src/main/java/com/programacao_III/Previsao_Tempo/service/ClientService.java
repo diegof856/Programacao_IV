@@ -9,6 +9,7 @@ import com.programacao_III.Previsao_Tempo.dto.ForecastFourDays.ForecastFourDaysR
 import com.programacao_III.Previsao_Tempo.dto.ForecastFourDays.ForecastFourDaysLimitationResponseDTO;
 import com.programacao_III.Previsao_Tempo.dto.WeatherConditionsDTO.WeatherConditionsRequestDTO;
 import com.programacao_III.Previsao_Tempo.dto.WeatherConditionsDTO.WeatherConditionsResponseDTO;
+import com.programacao_III.Previsao_Tempo.exceptions.CityNotFoundException;
 import com.programacao_III.Previsao_Tempo.model.Coord;
 import com.programacao_III.Previsao_Tempo.model.ForecastFourDays;
 import com.programacao_III.Previsao_Tempo.utils.GetData;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -52,7 +54,7 @@ public class ClientService {
     }
 
     // Método que retorna as previsões do tempo para os próximos quatro dias
-    public ForecastFourDaysResponseDTO getForecastFourDays(String nameCity) {
+    public ForecastFourDaysResponseDTO getAllForecastFourDays(String nameCity) {
         RestTemplate restTemplate = new RestTemplate();
         GetData dataCoord = new GetData(restTemplate);
 
@@ -64,6 +66,7 @@ public class ClientService {
                                 + API_KEY + "&lang=pt_br&units=metric",
                         HttpMethod.GET, null, ForecastFourDaysRequestDTO.class, new HttpHeaders())
                 .getBody();
+
 
         // Atualiza as previsões com a cidade e transforma os dados
         requestDTO.getList().forEach(forecastFourDays -> {
@@ -104,7 +107,7 @@ public class ClientService {
     }
 
     // Retorna uma versão paginada das previsões para os próximos 4 dias
-    public ForecastFourDaysLimitationResponseDTO getPaginationForecast(String nameCity, Pageable pageable) {
+    public ForecastFourDaysLimitationResponseDTO getForecast(String nameCity, Pageable pageable) {
         RestTemplate restTemplate = new RestTemplate();
         GetData dataCoord = new GetData(restTemplate);
 
@@ -161,13 +164,18 @@ public class ClientService {
         GetData data = new GetData(rest);
 
         // Faz a requisição à API para obter as condições climáticas atuais
-        WeatherConditionsRequestDTO requestDTO = data.sendRequest(
-                        "https://api.openweathermap.org/data/2.5/weather?q="
-                                + nameCity + "&appid=" + API_KEY + "&lang=pt_br&units=metric",
-                        HttpMethod.GET, null, WeatherConditionsRequestDTO.class, new HttpHeaders())
-                .getBody();
+       try {
+           WeatherConditionsRequestDTO requestDTO = data.sendRequest(
+                           "https://api.openweathermap.org/data/2.5/weather?q="
+                                   + nameCity + "&appid=" + API_KEY + "&lang=pt_br&units=metric",
+                           HttpMethod.GET, null, WeatherConditionsRequestDTO.class, new HttpHeaders())
+                   .getBody();
+           return new WeatherConditionsResponseDTO(requestDTO.getWeatherConditions().getFirst()); // Retorna a primeira condição climática da lista
 
-        return new WeatherConditionsResponseDTO(requestDTO.getWeatherConditions().getFirst()); // Retorna a primeira condição climática da lista
+       }catch (HttpClientErrorException.NotFound e){
+           throw new CityNotFoundException();
+       }
+
     }
 
     // Método para obter a temperatura atual de uma cidade
