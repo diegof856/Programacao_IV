@@ -1,4 +1,4 @@
-package com.programacao_III.Previsao_Tempo.dto.WeatherConditionsDTO;
+package com.programacao_III.Previsao_Tempo.dtos.WeatherConditionsDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.programacao_III.Previsao_Tempo.model.WeatherConditions;

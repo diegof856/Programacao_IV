@@ -1,4 +1,4 @@
-package com.programacao_III.Previsao_Tempo.dto.CoordDTO;
+package com.programacao_III.Previsao_Tempo.dtos.CoordDTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.programacao_III.Previsao_Tempo.model.Coord;

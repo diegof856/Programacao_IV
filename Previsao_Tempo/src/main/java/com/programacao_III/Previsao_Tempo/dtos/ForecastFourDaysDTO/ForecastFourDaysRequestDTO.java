@@ -1,4 +1,4 @@
-package com.programacao_III.Previsao_Tempo.dto.ForecastFourDays;
+package com.programacao_III.Previsao_Tempo.dtos.ForecastFourDaysDTO;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;

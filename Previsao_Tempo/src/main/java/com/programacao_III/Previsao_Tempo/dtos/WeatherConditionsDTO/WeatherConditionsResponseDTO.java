@@ -1,4 +1,4 @@
-package com.programacao_III.Previsao_Tempo.dto.WeatherConditionsDTO;
+package com.programacao_III.Previsao_Tempo.dtos.WeatherConditionsDTO;
 
 import com.programacao_III.Previsao_Tempo.model.WeatherConditions;
 

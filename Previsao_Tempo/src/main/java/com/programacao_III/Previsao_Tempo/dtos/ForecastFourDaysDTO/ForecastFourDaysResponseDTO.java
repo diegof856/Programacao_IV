@@ -1,8 +1,7 @@
-package com.programacao_III.Previsao_Tempo.dto.ForecastFourDays;
+package com.programacao_III.Previsao_Tempo.dtos.ForecastFourDaysDTO;
 
 import com.programacao_III.Previsao_Tempo.model.ForecastFourDays;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

@@ -114,4 +114,6 @@ public class Climate {
     public void setNameCity(String nameCity) {
         this.nameCity = nameCity;
     }
+
+
 }

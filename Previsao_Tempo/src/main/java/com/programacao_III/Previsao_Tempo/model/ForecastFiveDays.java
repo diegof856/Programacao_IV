@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 
-// A classe ForecastFourDays representa a previsão do tempo para os próximos quatro dias,
-// incluindo informações sobre a data, hora, clima, vento, precipitação e outras condições meteorológicas.
-public class ForecastFourDays {
-
+public class ForecastFiveDays {
     // O campo 'dateTime' é usado para armazenar a data e hora no formato de texto.
     // Ele está marcado com 'WRITE_ONLY', o que significa que será ignorado durante a serialização
     // (não aparecerá no JSON de saída), mas será usado durante a desserialização do JSON.
@@ -57,16 +54,13 @@ public class ForecastFourDays {
     private LocalDateTime dateHourForecast;
     @JsonProperty("Quantidade De Chuva Prevista Neste Período De Tempo")
     @JsonAlias({"rain"})
-    private RainOneHour rain;
+    private RainThreeHour rain;
 
-    // Construtor padrão
-    public ForecastFourDays() {
-    }
+    public ForecastFiveDays(){}
 
-    // Construtor parametrizado para inicializar os campos com valores fornecidos
-    public ForecastFourDays(String dateTime, PartDay partDay, Climate climate, List<WeatherConditions> weatherConditions, Wind wind, String precipitation, RainOneHour rain) {
-        this.dateTime = dateTime;
+    public ForecastFiveDays(PartDay partDay, String dateTime, Climate climate, List<WeatherConditions> weatherConditions, Wind wind, String precipitation, RainThreeHour rain) {
         this.partDay = partDay;
+        this.dateTime = dateTime;
         this.climate = climate;
         this.weatherConditions = weatherConditions;
         this.wind = wind;
@@ -74,60 +68,56 @@ public class ForecastFourDays {
         this.rain = rain;
     }
 
-    // Métodos getters para acessar os valores dos campos.
-
-    public String getPrecipitation() {
-        return precipitation + " mm";  // Retorna a precipitação em milímetros.
-    }
-
-    public Climate getClimate() {
-        return climate;  // Retorna as informações sobre o clima.
+    public Wind getWind() {
+        return wind;
     }
 
     public List<WeatherConditions> getWeatherConditions() {
-        return weatherConditions;  // Retorna as condições climáticas esperadas (ex: chuva, neblina).
+        return weatherConditions;
     }
 
-    public Wind getWind() {
-        return wind;  // Retorna as informações sobre o vento.
+    public Climate getClimate() {
+        return climate;
+    }
+
+    public String getPrecipitation() {
+        return precipitation;
     }
 
     public PartDay getPartDay() {
-        return partDay;  // Retorna a fase do dia (manhã, tarde, noite).
+        return partDay;
     }
 
-   public RainOneHour getRain() {
+    public RainThreeHour getRain() {
         return rain;
     }
 
     public String getDateTime() {
-        return dateTime;  // Retorna a data e hora da previsão como texto.
+        return dateTime;
     }
 
     public LocalDateTime getDateHourForecast() {
-        return dateHourForecast;  // Retorna a data e hora da previsão como um objeto LocalDateTime.
+        return dateHourForecast;
     }
 
-    // Método setter para definir a data e hora da previsão.
+    public String getHourForecast() {
+        return hourForecast;
+    }
+
+    public void setHourForecast(String hourForecast) {
+        this.hourForecast = hourForecast;
+    }
+
     public void setDateHourForecast(LocalDateTime dateHourForecast) {
         this.dateHourForecast = dateHourForecast;
     }
 
-    // Getter e setter para 'hourForecast', que representa a hora da previsão.
-    public String getHourForecast() {
-        return hourForecast;  // Retorna a hora da previsão.
-    }
-
-    public void setHourForecast(String hourForecast) {
-        this.hourForecast = hourForecast;  // Define a hora da previsão.
-    }
-
-    // Getter e setter para 'dateForecast', que representa a data da previsão.
     public String getDateForecast() {
-        return dateForecast;  // Retorna a data da previsão.
+        return dateForecast;
     }
 
     public void setDateForecast(String dateForecast) {
-        this.dateForecast = dateForecast;  // Define a data da previsão.
+        this.dateForecast = dateForecast;
     }
+
 }
