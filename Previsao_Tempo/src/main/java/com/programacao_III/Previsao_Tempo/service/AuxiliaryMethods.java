@@ -1,100 +1,126 @@
 package com.programacao_III.Previsao_Tempo.service;
 
+import com.programacao_III.Previsao_Tempo.dtos.coordDTO.CoordRequestDTO;
+import com.programacao_III.Previsao_Tempo.models.coord.Coord;
+import com.programacao_III.Previsao_Tempo.utils.GetData;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
-import com.programacao_III.Previsao_Tempo.model.Coord;
-import com.programacao_III.Previsao_Tempo.model.ForecastFiveDays;
-import com.programacao_III.Previsao_Tempo.model.ForecastFourDays;
-
-import org.springframework.data.domain.Pageable;
-
+import java.text.NumberFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class AuxiliaryMethods {
+    // Instanciação do RestTemplate para fazer requisições HTTP
+    protected RestTemplate rest = new RestTemplate();
+    // Instanciação do utilitário GetData para facilitar a execução de requisições HTTP
+    protected GetData data = new GetData(rest);
 
+    // Injeção das variáveis de ambiente com as configurações da API
+    @Value("${api.key}") // Injeta a chave da API do OpenWeatherMap
+    protected String API_KEY;
+
+    @Value("${api.urlWeather}")
+    protected String API_URL;
+
+    @Value("${api.urlAppid}")
+    protected String API_APPID;
+
+    @Value("${api.urlLang}")
+    protected String API_LANG;
+
+    @Value("${api.urlForecastFourDays}")
+    protected String API_URL_FORECAST_FOUR_DAYS;
+
+    @Value("${api.urlForecastFiveDays}")
+    protected String API_URL_FORECAST_FIVE_DAYS;
+
+    @Value("${api.urlLon}")
+    protected String API_LON;
+
+    @Value("${api.urlForecastFifteenDays}")
+    protected String API_URL_FORECAST_FIFTEEN_DAYS;
+
+    @Value("${api.urlCnt}")
+    protected String API_CNT;
+
+    @Value("${api.urlForecastLastTwentyFourHours}")
+    protected String API_URL_FORECAST_LADTTWENTYFOURHOURS;
 
     // Método responsável por obter as coordenadas geográficas de uma cidade.
-    protected abstract Coord getCoord(String nameCity);
+    // Faz uma requisição à API do OpenWeatherMap para obter as coordenadas da cidade.
+    protected Coord getCoord(String nameCity) {
+        // Faz a requisição HTTP para obter os dados da coordenada da cidade
+        CoordRequestDTO request = this.data.sendRequest(this.makeUrlTodayAndCoord(nameCity),
+                        HttpMethod.GET, null, CoordRequestDTO.class, new HttpHeaders())
+                .getBody();
 
-    // Atualiza as previsões com a data e hora formatadas
-    protected void editLastDataFourDayRequestDTO(ForecastFourDays forecastFourDays, String nameCity) {
-        forecastFourDays.getClimate().setNameCity(nameCity);
-        forecastFourDays.setDateHourForecast(this.transformDate(forecastFourDays.getDateTime()));
-        forecastFourDays.setDateForecast(this.pickUpOnlyDate(forecastFourDays.getDateHourForecast()));
-        forecastFourDays.setHourForecast(this.pickUpOnlyTime(forecastFourDays.getDateHourForecast()));
+        // Retorna as coordenadas obtidas na resposta da API
+        return request.getCoord();
     }
-    protected void editLastDataFiveDayRequestDTO(ForecastFiveDays forecastFiveDays, String nameCity){
-        forecastFiveDays.getClimate().setNameCity(nameCity);
-        forecastFiveDays.setDateHourForecast(this.transformDate(forecastFiveDays.getDateTime()));
-        forecastFiveDays.setDateForecast(this.pickUpOnlyDate(forecastFiveDays.getDateHourForecast()));
-        forecastFiveDays.setHourForecast(this.pickUpOnlyTime(forecastFiveDays.getDateHourForecast()));
+
+    // Método para montar a URL para obter as coordenadas da cidade usando o nome da cidade.
+    protected String makeUrlTodayAndCoord(String nameCity) {
+        // Concatena a URL base com o nome da cidade e os parâmetros necessários para a requisição
+        return  API_URL + nameCity + API_APPID + API_KEY + API_LANG;
     }
-    // Converte o timestamp recebido da API para um objeto LocalDateTime
-    private LocalDateTime transformDate(String dateTime) {
+
+    // Método para transformar um timestamp (segundos desde a época Unix) em uma hora no formato "HH:mm:ss"
+    protected String transformTimesTampHour(Long timesTamp) {
+        // Cria um formatador para formatar a hora no padrão "HH:mm:ss"
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        // Converte o timestamp em um LocalDateTime e formata para a hora
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(timesTamp), ZoneId.systemDefault()).format(timeFormatter);
+    }
+
+    // Método para transformar um timestamp (segundos desde a época Unix) em uma data e hora no formato "yyyy-MM-dd HH:mm:ss"
+    protected String transformTimesTampDateHour(Long timesTamp) {
+        // Cria um formatador para formatar a data e hora no padrão "yyyy-MM-dd HH:mm:ss"
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Converte o timestamp em um LocalDateTime e formata para a data e hora
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(timesTamp), ZoneId.systemDefault()).format(timeFormatter);
+    }
+
+    // Converte uma string de data no formato "yyyy-MM-dd HH:mm:ss" para um objeto LocalDateTime
+    protected LocalDateTime transformDate(String dateTime) {
+        // Cria um formatador para converter a string para LocalDateTime
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Converte a string para LocalDateTime
         return LocalDateTime.parse(dateTime, formatter).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
-    // Extrai somente a hora (sem a data) do objeto LocalDateTime
-    private String pickUpOnlyTime(LocalDateTime dateTime) {
+    // Método para formatar números de maneira mais atraente, por exemplo, para populações
+    protected String transformFormatMoreAttractive(Double numberPopulation) {
+        // Cria um formatador para números com a localidade do Brasil (pt-BR)
+        NumberFormat formatAttractive = NumberFormat.getInstance(new Locale("pt", "BR"));
+
+        // Retorna o número formatado
+        return formatAttractive.format(numberPopulation);
+    }
+
+    // Extrai somente a hora (sem a data) de um objeto LocalDateTime
+    protected String pickUpOnlyTime(LocalDateTime dateTime) {
+        // Cria um formatador para formatar apenas a hora no padrão "HH:mm:ss"
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        // Formata e retorna apenas a hora
         return dateTime.toLocalTime().format(formatter);
     }
 
-    // Extrai somente a data (sem a hora) do objeto LocalDateTime
-    private String pickUpOnlyDate(LocalDateTime dateTime) {
+    // Extrai somente a data (sem a hora) de um objeto LocalDateTime
+    protected String pickUpOnlyDate(LocalDateTime dateTime) {
+        // Cria um formatador para formatar apenas a data no padrão "dd-MM-yyyy"
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        // Formata e retorna apenas a data
         return dateTime.toLocalDate().format(formatter);
-    }
-
-    // Aplica a paginação nas previsões
-    private List<ForecastFourDays> paginateFourDaysForecasts(Set<ForecastFourDays> forecasts, Pageable pageable) {
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), forecasts.size());
-        return new ArrayList<>(forecasts).subList(start, end); // Retorna a sublista de previsões
-    }
-    // Aplica a paginação nas previsões
-    private List<ForecastFiveDays> paginateFiveDaysForecasts(Set<ForecastFiveDays> forecasts, Pageable pageable) {
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), forecasts.size());
-        return new ArrayList<>(forecasts).subList(start, end); // Retorna a sublista de previsões
-    }
-    // Agrupa as previsões por data, e dentro de cada data, agrupa por hora
-    protected Map<String, Set<ForecastFourDays>> makeMap(List<ForecastFourDays> requestList) {
-        return requestList.stream()
-                .collect(Collectors.groupingBy(
-                        forecast -> forecast.getDateForecast(), // Chave de agrupamento por data
-                        () -> new TreeMap<String, Set<ForecastFourDays>>(), // Tipo do mapa (TreeMap para ordenação)
-                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFourDays -> forecastFourDays.getHourForecast())))) // Ordena por hora
-                );
-    }
-
-    // Agrupa as previsões paginadas por data
-    protected Map<String, List<ForecastFourDays>> makeFourDaysPaginatedMap(List<ForecastFourDays> requestList, Pageable pageable) {
-        return requestList.stream()
-                .collect(Collectors.groupingBy(
-                        forecast -> "Previsão para o dia " + forecast.getDateForecast(), // Agrupamento por data
-                        () -> new TreeMap<String, List<ForecastFourDays>>(),
-                        Collectors.collectingAndThen(
-                                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFourDays -> forecastFourDays.getHourForecast()))),
-                                forecasts -> paginateFourDaysForecasts(forecasts, pageable)
-                        )
-                ));
-    }
-    // Agrupa as previsões paginadas por data
-    protected Map<String, List<ForecastFiveDays>> makeFiveDaysPaginatedMap(List<ForecastFiveDays> requestList, Pageable pageable) {
-
-        return requestList.stream()
-                .collect(Collectors.groupingBy(
-                        forecast -> "Previsão para o dia " + forecast.getDateForecast(), // Agrupamento por data
-                        () -> new TreeMap<String, List<ForecastFiveDays>>(),
-                        Collectors.collectingAndThen(
-                                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFiveDays -> forecastFiveDays.getHourForecast()))),
-                                forecasts -> paginateFiveDaysForecasts(forecasts, pageable)
-                        )
-                ));
     }
 }
