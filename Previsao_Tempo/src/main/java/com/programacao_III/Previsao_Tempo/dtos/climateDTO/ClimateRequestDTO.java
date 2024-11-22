@@ -2,7 +2,7 @@ package com.programacao_III.Previsao_Tempo.dtos.climateDTO;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.programacao_III.Previsao_Tempo.models.Cities.CityInfo;
+import com.programacao_III.Previsao_Tempo.models.cities.CityInfo;
 import com.programacao_III.Previsao_Tempo.models.climates.ClimateToday;
 import com.programacao_III.Previsao_Tempo.models.hourdawnnightfall.HourDawnNightfall;
 import com.programacao_III.Previsao_Tempo.models.winds.WindToday;

@@ -2,7 +2,7 @@ package com.programacao_III.Previsao_Tempo.dtos.forecastFifteenDays;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.programacao_III.Previsao_Tempo.models.Cities.CityInfoFifteenDaysForecast;
+import com.programacao_III.Previsao_Tempo.models.cities.CityInfoFifteenDaysForecast;
 import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFifteenDays;
 
 import java.util.List;

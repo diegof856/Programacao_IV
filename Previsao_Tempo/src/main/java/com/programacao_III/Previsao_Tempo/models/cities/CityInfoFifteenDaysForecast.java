@@ -1,4 +1,4 @@
-package com.programacao_III.Previsao_Tempo.models.Cities;
+package com.programacao_III.Previsao_Tempo.models.cities;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +31,7 @@ public class CityInfoFifteenDaysForecast {
 
     // O campo 'quantityPopulation' armazena a quantidade de pessoas em formato de String.
     // Ele será mapeado para o campo 'Quantidade De Pessoas' no JSON de resposta.
-    @JsonProperty("Quantidade De Pessoas")
+    @JsonProperty("Quantidade_De_Pessoas")
     private String quantityPopulation;
 
     // Construtor padrão necessário para a deserialização do JSON.

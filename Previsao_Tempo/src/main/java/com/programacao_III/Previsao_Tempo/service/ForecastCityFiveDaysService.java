@@ -87,7 +87,7 @@ public class ForecastCityFiveDaysService extends AuxiliaryMethods {
     private Map<String, Set<ForecastFiveDays>> makeFiveDaysMap(List<ForecastFiveDays> requestList) {
         return requestList.stream()
                 .collect(Collectors.groupingBy(
-                        forecast -> "Previsão para o dia "+ forecast.getDateForecast(), // Agrupamento por data
+                        forecast -> "Previsao_Para_O_Dia "+ forecast.getDateForecast(), // Agrupamento por data
                         () -> new TreeMap<String, Set<ForecastFiveDays>>(), // Usando TreeMap para garantir a ordenação
                         Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFiveDays -> forecastFiveDays.getHourForecast())))) // Ordena as previsões por hora
                 );
@@ -110,7 +110,7 @@ public class ForecastCityFiveDaysService extends AuxiliaryMethods {
     private Map<String, List<ForecastFiveDays>> makeFiveDaysPaginatedMap(List<ForecastFiveDays> requestList, Pageable pageable) {
         return requestList.stream()
                 .collect(Collectors.groupingBy(
-                        forecast -> "Previsão para o dia " + forecast.getDateForecast(), // Agrupamento por data
+                        forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(), // Agrupamento por data
                         () -> new TreeMap<String, List<ForecastFiveDays>>(), // Usando TreeMap para garantir ordenação
                         Collectors.collectingAndThen(
                                 Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFiveDays -> forecastFiveDays.getHourForecast()))), // Ordenação das previsões por hora

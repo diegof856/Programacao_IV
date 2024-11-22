@@ -1,4 +1,4 @@
-package com.programacao_III.Previsao_Tempo.models.Cities;
+package com.programacao_III.Previsao_Tempo.models.cities;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,7 +26,7 @@ public class CityInfo {
 
     // O campo 'quantityPopulation' é um campo adicional que representa a quantidade de pessoas,
     // mas como uma String. Ele é mapeado para o campo 'Quantidade De Pessoas' no JSON.
-    @JsonProperty("Quantidade De Pessoas")
+    @JsonProperty("Quantidade_De_Pessoas")
     private String quantityPopulation;
 
     // O campo 'sunrise' representa a hora do nascer do sol. Ele é mapeado para o campo 'sunrise' no JSON.
@@ -43,12 +43,12 @@ public class CityInfo {
 
     // O campo 'sunriseHour' armazena a hora formatada do nascer do sol.
     // Ele será mapeado para o campo 'Nascer do sol' no JSON de saída.
-    @JsonProperty("Nascer do sol")
+    @JsonProperty("Nascer_Do_Sol")
     private String sunriseHour;
 
     // O campo 'sunsetHour' armazena a hora formatada do pôr do sol.
     // Ele será mapeado para o campo 'Pôr Do Sol' no JSON de saída.
-    @JsonProperty("Pôr Do Sol")
+    @JsonProperty("Por_Do_Sol")
     private String sunsetHour;
 
     // Construtor padrão necessário para a deserialização do JSON

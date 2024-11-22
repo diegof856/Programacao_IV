@@ -22,27 +22,27 @@ public class ClimateLastTwentyFourHours {
 
     // O campo 'feels_like' representa a sensação térmica da cidade.
     // A anotação @JsonProperty mapeia o campo 'feels_like' no JSON para 'feels_like' em Java.
-    @JsonProperty("Sensação Térmica")
+    @JsonProperty("Sensacao_Termica")
     @JsonAlias({"feels_like"})
     private String feels_like;
 
     // O campo 'temp_min' representa a temperatura mínima registrada na cidade.
     // O campo 'temp_max' representa a temperatura máxima registrada.
-    @JsonProperty("Temperatura Minima")
+    @JsonProperty("Temperatura_Minima")
     @JsonAlias({"temp_min"})
     private String temp_min;
 
-    @JsonProperty("Temperatura Máxima")
+    @JsonProperty("Temperatura_Maxima")
     @JsonAlias({"temp_max"})
     private String temp_max;
 
     // O campo 'pressure' representa a pressão atmosférica.
-    @JsonProperty("Pressão Atmosférica")
+    @JsonProperty("Pressao_Atmosferica")
     @JsonAlias({"pressure"})
     private String pressure;
 
     // O campo 'humidity' representa a umidade relativa do ar na cidade.
-    @JsonProperty("Umidade Relativa Do Ar")
+    @JsonProperty("Umidade_Relativa_Do_Ar")
     @JsonAlias({"humidity"})
     private String humidity;
 

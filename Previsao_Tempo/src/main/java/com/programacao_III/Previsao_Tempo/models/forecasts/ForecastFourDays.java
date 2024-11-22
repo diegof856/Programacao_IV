@@ -2,7 +2,7 @@ package com.programacao_III.Previsao_Tempo.models.forecasts;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.programacao_III.Previsao_Tempo.models.Cities.CityInfo;
+import com.programacao_III.Previsao_Tempo.models.cities.CityInfo;
 import com.programacao_III.Previsao_Tempo.models.climates.Climate;
 import com.programacao_III.Previsao_Tempo.models.partday.PartDay;
 import com.programacao_III.Previsao_Tempo.models.weatherconditions.WeatherConditions;
@@ -32,7 +32,7 @@ public class ForecastFourDays {
 
     // O campo 'partDay' armazena a fase do dia (manhã, tarde, noite).
     // Ele é mapeado para o JSON com o alias 'sys'.
-    @JsonProperty("Fase Do Dia")
+    @JsonProperty("Fase_Do_Dia")
     @JsonAlias({"sys"})
     private PartDay partDay;
 
@@ -42,17 +42,17 @@ public class ForecastFourDays {
     private Climate climate;
 
     // O campo 'weatherConditions' armazena as condições meteorológicas esperadas, como chuva, neve, etc.
-    @JsonProperty("Condição Do Clima Esperada")
+    @JsonProperty("Condicao_Do_Clima_Esperada")
     @JsonAlias({"weather"})
     private List<WeatherConditions> weatherConditions;
 
     // O campo 'wind' armazena as condições do vento, como velocidade e direção.
-    @JsonProperty("Condição Do Vento")
+    @JsonProperty("Condicao_Do_Vento")
     @JsonAlias({"wind"})
     private Wind wind;
 
     // O campo 'precipitation' armazena o valor da precipitação (em milímetros).
-    @JsonProperty("Precipitação")
+    @JsonProperty("Precipitacao")
     @JsonAlias({"pop"})
     private String precipitation;
 
@@ -62,7 +62,7 @@ public class ForecastFourDays {
     private LocalDateTime dateHourForecast;
 
     // O campo 'city' armazena as informações da cidade relacionadas à previsão.
-    @JsonProperty("Informações da cidade")
+    @JsonProperty("Informacoes_Da_Cidade")
     private CityInfo city;
 
     // Construtor padrão

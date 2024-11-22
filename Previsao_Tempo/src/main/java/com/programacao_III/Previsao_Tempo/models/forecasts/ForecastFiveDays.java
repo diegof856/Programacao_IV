@@ -2,7 +2,7 @@ package com.programacao_III.Previsao_Tempo.models.forecasts;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.programacao_III.Previsao_Tempo.models.Cities.CityInfo;
+import com.programacao_III.Previsao_Tempo.models.cities.CityInfo;
 import com.programacao_III.Previsao_Tempo.models.climates.Climate;
 import com.programacao_III.Previsao_Tempo.models.partday.PartDay;
 import com.programacao_III.Previsao_Tempo.models.weatherconditions.WeatherConditions;
@@ -31,7 +31,7 @@ public class ForecastFiveDays {
 
     // 'partDay' armazena a fase do dia (manhã, tarde, noite) e será mapeado com o alias 'sys'.
     // A fase do dia será incluída no JSON de resposta com a chave "Fase Do Dia".
-    @JsonProperty("Fase Do Dia")
+    @JsonProperty("Fase_Do_Dia")
     @JsonAlias({"sys"})
     private PartDay partDay;
 
@@ -43,18 +43,18 @@ public class ForecastFiveDays {
 
     // 'weatherConditions' armazena as condições meteorológicas, como chuva ou neve.
     // Será incluído no JSON de resposta com a chave "Condição Do Clima Esperada".
-    @JsonProperty("Condição Do Clima Esperada")
+    @JsonProperty("Condicao_Do_Clima_Esperada")
     @JsonAlias({"weather"})
     private List<WeatherConditions> weatherConditions;
 
     // 'wind' contém as condições do vento (velocidade e direção).
     // Será incluído no JSON de resposta com a chave "Condição Do Vento".
-    @JsonProperty("Condição Do Vento")
+    @JsonProperty("Condicao_Do_Vento")
     @JsonAlias({"wind"})
     private Wind wind;
 
     // 'precipitation' armazena o valor da precipitação (em milímetros) e será incluído no JSON com a chave "Precipitação".
-    @JsonProperty("Precipitação")
+    @JsonProperty("Precipitacao")
     @JsonAlias({"pop"})
     private String precipitation;
 
@@ -64,7 +64,7 @@ public class ForecastFiveDays {
     private LocalDateTime dateHourForecast;
 
     // 'city' contém informações sobre a cidade para a qual a previsão é fornecida.
-    @JsonProperty("Informações da cidade")
+    @JsonProperty("Informacoes_Da_Cidade")
     private CityInfo city;
 
     // Construtor padrão sem parâmetros.

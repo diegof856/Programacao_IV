@@ -78,7 +78,7 @@ public class ForecastCityFourDaysService extends AuxiliaryMethods {
         // Agrupa as previsões por data e, dentro de cada data, agrupa por hora
         return requestList.stream()
                 .collect(Collectors.groupingBy(
-                        forecast -> "Previsão para o dia " + forecast.getDateForecast(), // Agrupamento por data
+                        forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(), // Agrupamento por data
                         () -> new TreeMap<String, Set<ForecastFourDays>>(), // Tipo de mapa (TreeMap para ordenação)
                         Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFourDays -> forecastFourDays.getHourForecast())))) // Ordenação por hora
                 );
@@ -89,7 +89,7 @@ public class ForecastCityFourDaysService extends AuxiliaryMethods {
         // Agrupa as previsões por data e, dentro de cada data, agrupa por hora e aplica a paginação
         return requestList.stream()
                 .collect(Collectors.groupingBy(
-                        forecast -> "Previsão para o dia " + forecast.getDateForecast(), // Agrupamento por data
+                        forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(), // Agrupamento por data
                         () -> new TreeMap<String, List<ForecastFourDays>>(),
                         Collectors.collectingAndThen(
                                 Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFourDays -> forecastFourDays.getHourForecast()))), // Ordenação por hora

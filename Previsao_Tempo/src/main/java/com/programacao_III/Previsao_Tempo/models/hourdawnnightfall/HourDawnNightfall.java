@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HourDawnNightfall {
 
     // O campo 'sunrise' representa a hora do nascer do sol.
-    @JsonProperty("Nascer do sol")  // Mapeia o nome "Nascer do sol" no JSON para o campo 'sunrise'
+    @JsonProperty("Nascer_Do_Sol")  // Mapeia o nome "Nascer do sol" no JSON para o campo 'sunrise'
     private String sunrise;
 
     // O campo 'sunset' representa a hora do pôr do sol.
-    @JsonProperty("Pôr Do Sol")  // Mapeia o nome "Pôr Do Sol" no JSON para o campo 'sunset'
+    @JsonProperty("Por_Do_Sol")  // Mapeia o nome "Pôr Do Sol" no JSON para o campo 'sunset'
     private String sunset;
 
     // Construtor padrão que não inicializa nenhum valor (usado para criação sem parâmetros).

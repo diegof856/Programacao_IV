@@ -37,11 +37,11 @@ public class ForecastFifteenDays {
 
     // O campo 'hourDawnNightfall' armazena as informações sobre o nascer e pôr do sol.
     // Essas informações são representadas pela classe HourDawnNightfall.
-    @JsonProperty("Nascer e pôr do sol")
+    @JsonProperty("Nascer_E_Por_Do_Sol")
     private HourDawnNightfall hourDawnNightfall;
 
     // O campo 'pressure' contém o valor da pressão atmosférica (em hPa).
-    @JsonProperty("Pressão Atmosférica")
+    @JsonProperty("Pressao_Atmosferica")
     @JsonAlias({"pressure"})
     private String pressure;
 
@@ -53,43 +53,43 @@ public class ForecastFifteenDays {
 
     // O campo 'feelsLike' contém as informações sobre a sensação térmica,
     // representadas pela classe FeelsLike.
-    @JsonProperty("Sensação Termica")
+    @JsonProperty("Sensacao_Termica")
     @JsonAlias({"feels_like"})
     private FeelsLike feelsLike;
 
     // O campo 'humidity' contém o valor da umidade relativa do ar (em %).
-    @JsonProperty("Umidade Relativa Do Ar")
+    @JsonProperty("Umidade_Relativa_Do_Ar")
     @JsonAlias({"humidity"})
     private String humidity;
 
     // O campo 'weatherConditionsList' é uma lista de objetos da classe WeatherConditions,
     // que descrevem as condições climáticas esperadas para aquele dia (ex: céu nublado, chuva, etc).
-    @JsonProperty("Condição Do Clima Esperada")
+    @JsonProperty("Condicao_Do_Clima_Esperada")
     @JsonAlias({"weather"})
     private List<WeatherConditions> weatherConditionsList;
 
     // O campo 'speed' representa a velocidade do vento (em metros por segundo).
-    @JsonProperty("Velocidade Do Vento")
+    @JsonProperty("Velocidade_Do_Vento")
     @JsonAlias({"speed"})
     private String speed;
 
     // O campo 'deg' representa a direção do vento (em graus).
-    @JsonProperty("Direção do Vento")
+    @JsonProperty("Direcao_Do_Vento")
     @JsonAlias({"deg"})
     private String deg;
 
     // O campo 'gust' representa as rajadas de vento (em metros por segundo).
-    @JsonProperty("Rajadas De Vento")
+    @JsonProperty("Rajadas_De_Vento")
     @JsonAlias({"gust"})
     private String gust;
 
     // O campo 'clouds' contém a cobertura de nuvens no céu (em %).
-    @JsonProperty("Cobertura de nuvens no céu")
+    @JsonProperty("Cobertura_De_Nuvens_No_Ceu")
     @JsonAlias("clouds")
     private String clouds;
 
     // O campo 'rain' contém o volume de chuva previsto (em milímetros).
-    @JsonProperty("Volume de chuva previsto")
+    @JsonProperty("Volume_De_Chuva_Previsto")
     @JsonAlias({"rain"})
     private String rain;
 

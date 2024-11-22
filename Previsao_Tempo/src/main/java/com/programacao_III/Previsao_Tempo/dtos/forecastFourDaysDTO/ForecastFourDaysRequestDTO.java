@@ -1,7 +1,7 @@
 package com.programacao_III.Previsao_Tempo.dtos.forecastFourDaysDTO;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.programacao_III.Previsao_Tempo.models.Cities.CityInfo;
+import com.programacao_III.Previsao_Tempo.models.cities.CityInfo;
 import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFourDays;
 
 import java.util.List;

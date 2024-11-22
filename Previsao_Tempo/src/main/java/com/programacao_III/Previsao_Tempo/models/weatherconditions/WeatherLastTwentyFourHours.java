@@ -15,7 +15,7 @@ public class WeatherLastTwentyFourHours {
     // O campo 'climateLastTwentyFourHours' armazena as condições climáticas das últimas 24 horas.
     // O nome "Condições do clima" será usado ao serializar/deserializar o objeto JSON.
     // A anotação @JsonAlias permite que o campo também seja mapeado a partir do nome "main" no JSON.
-    @JsonProperty("Condições do clima")
+    @JsonProperty("Condicoes_Do_Clima")
     @JsonAlias("main")
     private ClimateLastTwentyFourHours climateLastTwentyFourHours;
 
@@ -29,7 +29,7 @@ public class WeatherLastTwentyFourHours {
     // O campo 'wind' armazena as condições do vento das últimas 24 horas.
     // O nome "Condições do vento" será usado ao serializar/deserializar o objeto JSON.
     // A anotação @JsonAlias permite que o campo também seja mapeado a partir do nome "wind" no JSON.
-    @JsonProperty("Condições do vento")
+    @JsonProperty("Condicoes_Do_Vento")
     @JsonAlias({"wind"})
     private WindLastTwentyFourHours wind;
 

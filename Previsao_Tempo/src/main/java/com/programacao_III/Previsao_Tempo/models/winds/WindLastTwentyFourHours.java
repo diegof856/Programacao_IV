@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WindLastTwentyFourHours {
     // A velocidade do vento, em metros por segundo (m/s).
-    @JsonProperty("Velocidade Do Vento")  // Define o nome do campo no JSON como "Velocidade Do Vento"
+    @JsonProperty("Velocidade_Do_Vento")  // Define o nome do campo no JSON como "Velocidade Do Vento"
     @JsonAlias({"speed"})  // Permite que o campo 'speed' seja mapeado a partir do JSON com a chave 'speed'
     private String speed;
 
     // A direção do vento, em graus (°).
-    @JsonProperty("Direção do Vento")  // Define o nome do campo no JSON como "Direção do Vento"
+    @JsonProperty("Direcao_Do_Vento")  // Define o nome do campo no JSON como "Direção do Vento"
     @JsonAlias({"deg"})  // Permite que o campo 'deg' seja mapeado a partir do JSON com a chave 'deg'
     private String windDirection;
 

@@ -11,28 +11,28 @@ public class FeelsLike {
     // O campo 'day' representa a sensação térmica durante o dia.
     // A anotação @JsonProperty é usada para mapear o campo JSON para o nome do atributo 'day' em Java.
     // A anotação @JsonAlias permite que o campo no JSON seja mapeado com o nome 'day' ou 'Sensação Termica durante o dia'.
-    @JsonProperty("Sensação Termica durante o dia")
+    @JsonProperty("Sensacao_Termica_Durante_O_Dia")
     @JsonAlias("day")
     private String day;
 
     // O campo 'night' representa a sensação térmica durante a noite.
     // A anotação @JsonProperty mapeia o campo JSON para o nome do atributo 'night' em Java.
     // A anotação @JsonAlias permite que o campo seja lido com o nome 'night' ou 'Sensação Termica durante a noite'.
-    @JsonProperty("Sensação Termica durante a noite")
+    @JsonProperty("Sensacao_Termica_Durante_A_Noite")
     @JsonAlias("night")
     private String night;
 
     // O campo 'eve' representa a sensação térmica durante o entardecer.
     // A anotação @JsonProperty mapeia o campo JSON para o nome do atributo 'eve' em Java.
     // A anotação @JsonAlias permite que o campo seja lido com o nome 'eve' ou 'Sensação Termica durante o entardecer'.
-    @JsonProperty("Sensação Termica durante o entardecer")
+    @JsonProperty("Sensacao_Termica_Durante_O_Entardecer")
     @JsonAlias("eve")
     private String eve;
 
     // O campo 'morn' representa a sensação térmica durante a manhã.
     // A anotação @JsonProperty mapeia o campo JSON para o nome do atributo 'morn' em Java.
     // A anotação @JsonAlias permite que o campo seja lido com o nome 'morn' ou 'Sensação Termica durante a manhã'.
-    @JsonProperty("Sensação Termica durante a manhã")
+    @JsonProperty("Sensacao_Termica_Durante_A_Manhã")
     @JsonAlias("morn")
     private String morn;
 

@@ -9,37 +9,37 @@ public class Temperature {
 
     // O campo 'day' representa a temperatura durante o dia, mapeado para o nome "Temperatura durante o dia" no JSON.
     // Também pode ser mapeado a partir do nome "day" no JSON.
-    @JsonProperty("Temperatura durante o dia")
+    @JsonProperty("Temperatura_Durante_O_Dia")
     @JsonAlias("day")
     private String day;
 
     // O campo 'min' representa a temperatura mínima, mapeado para o nome "Temperatura minima" no JSON.
     // Também pode ser mapeado a partir do nome "min" no JSON.
-    @JsonProperty("Temperatura minima")
+    @JsonProperty("Temperatura_Minima")
     @JsonAlias("min")
     private String min;
 
     // O campo 'max' representa a temperatura máxima, mapeado para o nome "Temperatura maxima" no JSON.
     // Também pode ser mapeado a partir do nome "max" no JSON.
-    @JsonProperty("Temperatura maxima")
+    @JsonProperty("Temperatura_Maxima")
     @JsonAlias("max")
     private String max;
 
     // O campo 'night' representa a temperatura durante a noite, mapeado para o nome "Temperatura durante a noite" no JSON.
     // Também pode ser mapeado a partir do nome "night" no JSON.
-    @JsonProperty("Temperatura durante a noite")
+    @JsonProperty("Temperatura_Durante_A_Noite")
     @JsonAlias("night")
     private String night;
 
     // O campo 'eve' representa a temperatura registrada ao entardecer, mapeado para o nome "Temperatura registrada no entardecer" no JSON.
     // Também pode ser mapeado a partir do nome "eve" no JSON.
-    @JsonProperty("Temperatura registrada no entardecer")
+    @JsonProperty("Temperatura_Registrada_Do_Entardecer")
     @JsonAlias("eve")
     private String eve;
 
     // O campo 'morn' representa a temperatura registrada durante a manhã, mapeado para o nome "Temperatura registrada durante a manhã" no JSON.
     // Também pode ser mapeado a partir do nome "morn" no JSON.
-    @JsonProperty("Temperatura registrada durante a manhã")
+    @JsonProperty("Temperatura_Registrada_Durante_A_Manhã")
     @JsonAlias("morn")
     private String morn;
 
