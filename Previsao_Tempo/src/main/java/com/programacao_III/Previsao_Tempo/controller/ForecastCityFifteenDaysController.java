@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/forecatscityfifteendays") // Define o endpoint base para as rotas deste controlador.
+@RequestMapping("/v1/forecatscityfifteendays") // Define o endpoint base para as rotas deste controlador.
 public class ForecastCityFifteenDaysController {
 
     @Autowired // Injeta automaticamente o serviço ForecastCityFifteenDaysService no controlador.

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // Define que esta classe é um controlador REST, retornando dados diretamente em formato JSON.
-@RequestMapping("/forecastscityfourdays") // Configura o caminho base para os endpoints deste controlador.
+@RequestMapping("/v1/forecastscityfourdays") // Configura o caminho base para os endpoints deste controlador.
 public class ForecastCityFourDaysController {
 
     // Injeção de dependência para acessar a lógica de negócios do serviço ForecastCityFourDaysService.

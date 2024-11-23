@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 // Declaração de que esta classe é um controlador REST, que irá manipular requisições HTTP e retornar respostas no formato JSON.
 @RestController
-@RequestMapping("/cityforecasttoday") // Define a URL base para todos os endpoints deste controlador.
+@RequestMapping("/v1/cityforecasttoday") // Define a URL base para todos os endpoints deste controlador.
 public class ForecastCityTodayController {
 
     // Injeção de dependência do serviço ForecastCityTodayService para acessar a lógica de negócios.
