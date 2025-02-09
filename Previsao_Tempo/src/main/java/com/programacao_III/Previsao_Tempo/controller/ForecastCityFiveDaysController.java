@@ -9,32 +9,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController // Indica que esta classe é um controlador REST que retorna respostas HTTP.
-@RequestMapping("/v1/forecastscityfivedays") // Define o caminho base para os endpoints deste controlador.
+@RestController
+@RequestMapping("/v1/forecastscityfivedays")
 public class ForecastCityFiveDaysController {
 
-    @Autowired // Injeta automaticamente a dependência do serviço ForecastCityFiveDaysService.
+    @Autowired
     private ForecastCityFiveDaysService service;
 
-    // Método para buscar previsões meteorológicas para 5 dias de uma cidade específica com suporte à paginação.
-    @GetMapping("/{nameCity}") // Define o endpoint que aceita o nome da cidade como parâmetro na URL.
-    public ResponseEntity<ForecastFiveDaysPageAbleResponseDTO> getForecast(
-            @PathVariable String nameCity, // Recebe o nome da cidade como parâmetro da URL.
-            @RequestParam(defaultValue = "0") int page, // Parâmetro opcional para definir a página atual, com valor padrão 0.
-            @RequestParam(defaultValue = "3") int pageSize) { // Parâmetro opcional para definir o tamanho da página, com valor padrão 3.
 
-        // Cria um objeto Pageable para controlar a paginação dos resultados.
+    @GetMapping("/{nameCity}")
+    public ResponseEntity<ForecastFiveDaysPageAbleResponseDTO> getForecast(
+            @PathVariable String nameCity,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int pageSize) {
+
+
         Pageable pageable = PageRequest.of(page, pageSize);
-        // Chama o serviço para obter as previsões paginadas e retorna a resposta com status 200 (OK).
+
         return ResponseEntity.ok(service.getForecastFiveDays(nameCity, pageable));
     }
 
-    // Método para buscar todas as previsões meteorológicas de 5 dias de uma cidade, sem paginação.
-    @GetMapping("/allforecasts/{nameCity}") // Define o endpoint que aceita o nome da cidade como parâmetro na URL.
+    @GetMapping("/allforecasts/{nameCity}")
     public ResponseEntity<AllForecastFiveDaysResponseDTO> getAllForecast(
-            @PathVariable String nameCity) { // Recebe o nome da cidade como parâmetro da URL.
+            @PathVariable String nameCity) {
 
-        // Chama o serviço para obter todas as previsões e retorna a resposta com status 200 (OK).
+
         return ResponseEntity.ok(service.getAllForecastFiveDays(nameCity));
     }
 }
