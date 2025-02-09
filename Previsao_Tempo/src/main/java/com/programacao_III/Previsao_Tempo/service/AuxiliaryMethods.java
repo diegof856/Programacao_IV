@@ -2,8 +2,10 @@ package com.programacao_III.Previsao_Tempo.service;
 
 import com.programacao_III.Previsao_Tempo.dtos.coordDTO.CoordRequestDTO;
 import com.programacao_III.Previsao_Tempo.models.coord.Coord;
+import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFourDays;
 import com.programacao_III.Previsao_Tempo.utils.GetData;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
@@ -56,8 +58,6 @@ public abstract class AuxiliaryMethods {
         CoordRequestDTO request = this.data.sendRequest(this.makeUrlTodayAndCoord(nameCity),
                         HttpMethod.GET, null, CoordRequestDTO.class, new HttpHeaders())
                 .getBody();
-
-
         return request.getCoord();
     }
 
@@ -66,23 +66,17 @@ public abstract class AuxiliaryMethods {
     }
 
     protected String transformTimesTampHour(Long timesTamp) {
-
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timesTamp), ZoneId.systemDefault()).format(timeFormatter);
     }
 
     protected String transformTimesTampDateHour(Long timesTamp) {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(timesTamp), ZoneId.systemDefault()).format(timeFormatter);
     }
 
     protected LocalDateTime transformDate(String dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
         return LocalDateTime.parse(dateTime, formatter).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 

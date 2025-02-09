@@ -6,29 +6,27 @@ import com.programacao_III.Previsao_Tempo.dtos.forecastFourDaysDTO.AllForecastFo
 import com.programacao_III.Previsao_Tempo.exceptions.CityNotFoundException;
 import com.programacao_III.Previsao_Tempo.exceptions.InternalServerErrorException;
 import com.programacao_III.Previsao_Tempo.exceptions.PagesEndException;
+import com.programacao_III.Previsao_Tempo.interfaces.PaginatedMapMethods;
 import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFourDays;
-import com.programacao_III.Previsao_Tempo.utils.GetData;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ForecastCityFourDaysService extends AuxiliaryMethods {
+public class ForecastCityFourDaysService extends AuxiliaryMethods implements PaginatedMapMethods<ForecastFourDays> {
 
     public ForecastFourDaysPageableDTO getForecast(String nameCity, Pageable pageable) {
         try {
-
             ForecastFourDaysRequestDTO requestDTO = this.makeRequestDTO(nameCity);
-
             this.editLastDataFourDayRequestDTO(requestDTO);
-
-            Map<String, List<ForecastFourDays>> forecastFourDaysMap = this.makeFourDaysPaginatedMap(requestDTO.getList(), pageable);
+            Map<String, List<ForecastFourDays>> forecastFourDaysMap = this.makePaginatedMap(requestDTO.getList(), pageable);
             return new ForecastFourDaysPageableDTO(forecastFourDaysMap);
 
         } catch (HttpClientErrorException.NotFound e) {
@@ -54,6 +52,17 @@ public class ForecastCityFourDaysService extends AuxiliaryMethods {
         }
     }
 
+    @Override
+    public Map<String, List<ForecastFourDays>> makePaginatedMap(List<? extends ForecastFourDays> requestList, Pageable pageable) {
+        return requestList.stream() .collect(Collectors.groupingBy(
+                forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(),
+                () -> new TreeMap<String, List<ForecastFourDays>>(),
+                Collectors.collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFourDays -> forecastFourDays.getHourForecast()))),
+                        forecasts -> paginateFourDaysForecasts(forecasts, pageable)
+                )
+        ));
+    }
     private void editLastDataFourDayRequestDTO(ForecastFourDaysRequestDTO requestFourDayDTO) {
         requestFourDayDTO.getList().forEach(forecastFourDays -> {
             forecastFourDays.setCity(requestFourDayDTO.getCity());
@@ -77,24 +86,11 @@ public class ForecastCityFourDaysService extends AuxiliaryMethods {
                 );
     }
 
-
-    private Map<String, List<ForecastFourDays>> makeFourDaysPaginatedMap(List<ForecastFourDays> requestList, Pageable pageable) {
-
-        return requestList.stream()
-                .collect(Collectors.groupingBy(
-                        forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(),
-                        () -> new TreeMap<String, List<ForecastFourDays>>(),
-                        Collectors.collectingAndThen(
-                                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFourDays -> forecastFourDays.getHourForecast()))),
-                                forecasts -> paginateFourDaysForecasts(forecasts, pageable)
-                        )
-                ));
-    }
-
-    private List<ForecastFourDays> paginateFourDaysForecasts(Set<ForecastFourDays> forecasts, Pageable pageable) {
+    private List<ForecastFourDays> paginateFourDaysForecasts(Set<? extends ForecastFourDays> forecasts, Pageable pageable) {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), forecasts.size());
-        return new ArrayList<>(forecasts).subList(start, end);
+        List<ForecastFourDays> paginatedForecasts = new ArrayList<>(forecasts);
+        return paginatedForecasts.subList(start, end);
     }
 
     private ForecastFourDaysRequestDTO makeRequestDTO(String nameCity) {
@@ -104,4 +100,5 @@ public class ForecastCityFourDaysService extends AuxiliaryMethods {
     private String makeUrl(String nameCity) {
         return API_URL_FORECAST_FOUR_DAYS + this.getCoord(nameCity).getLat() + API_LON + this.getCoord(nameCity).getLon() + API_APPID + API_KEY + API_LANG;
     }
+
 }

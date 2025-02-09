@@ -6,6 +6,7 @@ import com.programacao_III.Previsao_Tempo.dtos.forecastFiveDaysDTO.ForecastFiveD
 import com.programacao_III.Previsao_Tempo.exceptions.CityNotFoundException;
 import com.programacao_III.Previsao_Tempo.exceptions.InternalServerErrorException;
 import com.programacao_III.Previsao_Tempo.exceptions.PagesEndException;
+import com.programacao_III.Previsao_Tempo.interfaces.PaginatedMapMethods;
 import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFiveDays;
 import com.programacao_III.Previsao_Tempo.utils.GetData;
 import org.springframework.data.domain.Pageable;
@@ -19,17 +20,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ForecastCityFiveDaysService extends AuxiliaryMethods {
+public class ForecastCityFiveDaysService extends AuxiliaryMethods implements PaginatedMapMethods<ForecastFiveDays> {
 
     public ForecastFiveDaysPageAbleResponseDTO getForecastFiveDays(String nameCity, Pageable pageable) {
         try {
             ForecastFiveDaysResquestDTO resquestDTO = this.makeRequestDTO(nameCity);
-
-
             this.editLastDataFiveDayRequestDTO(resquestDTO);
-
-            Map<String, List<ForecastFiveDays>> forecastFiveDaysMap = this.makeFiveDaysPaginatedMap(resquestDTO.getList(), pageable);
-
+            Map<String, List<ForecastFiveDays>> forecastFiveDaysMap = this.makePaginatedMap(resquestDTO.getList(), pageable);
             return new ForecastFiveDaysPageAbleResponseDTO(forecastFiveDaysMap);
         } catch (HttpClientErrorException.NotFound e) {
 
@@ -66,29 +63,8 @@ public class ForecastCityFiveDaysService extends AuxiliaryMethods {
         return API_URL_FORECAST_FIVE_DAYS + this.getCoord(nameCity).getLat() + API_LON + this.getCoord(nameCity).getLon() + API_APPID + API_KEY + API_LANG;
     }
 
-    private Map<String, Set<ForecastFiveDays>> makeFiveDaysMap(List<ForecastFiveDays> requestList) {
-        return requestList.stream()
-                .collect(Collectors.groupingBy(
-                        forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(), por data
-                                () ->new TreeMap<String, Set<ForecastFiveDays>>(),
-                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFiveDays -> forecastFiveDays.getHourForecast()))))
-                );
-    }
-
-    private void editLastDataFiveDayRequestDTO(ForecastFiveDaysResquestDTO resquestFiveDaysDTO) {
-        resquestFiveDaysDTO.getList().forEach(forecastFiveDays -> {
-            forecastFiveDays.setCity(resquestFiveDaysDTO.getCity());
-            forecastFiveDays.getCity().setSunriseHour(this.transformTimesTampHour(forecastFiveDays.getCity().getSunrise()));
-            forecastFiveDays.getCity().setSunsetHour(this.transformTimesTampHour(forecastFiveDays.getCity().getSunset()));
-            forecastFiveDays.getCity().setQuantityPopulation(this.transformFormatMoreAttractive(forecastFiveDays.getCity().getPopulation()));
-            Converte a população para formato mais legível
-            forecastFiveDays.setDateHourForecast(this.transformDate(forecastFiveDays.getDateTime()));
-            forecastFiveDays.setDateForecast(this.pickUpOnlyDate(forecastFiveDays.getDateHourForecast()));
-            forecastFiveDays.setHourForecast(this.pickUpOnlyTime(forecastFiveDays.getDateHourForecast()));
-        });
-    }
-
-    private Map<String, List<ForecastFiveDays>> makeFiveDaysPaginatedMap(List<ForecastFiveDays> requestList, Pageable pageable) {
+    @Override
+    public Map<String, List<ForecastFiveDays>> makePaginatedMap(List<? extends ForecastFiveDays> requestList, Pageable pageable) {
         return requestList.stream()
                 .collect(Collectors.groupingBy(
                         forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(),
@@ -100,11 +76,32 @@ public class ForecastCityFiveDaysService extends AuxiliaryMethods {
                 ));
     }
 
+    private Map<String, Set<ForecastFiveDays>> makeFiveDaysMap(List<ForecastFiveDays> requestList) {
+        return requestList.stream()
+                .collect(Collectors.groupingBy(
+                        forecast -> "Previsao_Para_O_Dia " + forecast.getDateForecast(),
+                                () ->new TreeMap<String, Set<ForecastFiveDays>>(),
+                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(forecastFiveDays -> forecastFiveDays.getHourForecast()))))
+                );
+    }
 
-    private List<ForecastFiveDays> paginateFiveDaysForecasts(Set<ForecastFiveDays> forecasts, Pageable pageable) {
+    private void editLastDataFiveDayRequestDTO(ForecastFiveDaysResquestDTO resquestFiveDaysDTO) {
+        resquestFiveDaysDTO.getList().forEach(forecastFiveDays -> {
+            forecastFiveDays.setCity(resquestFiveDaysDTO.getCity());
+            forecastFiveDays.getCity().setSunriseHour(this.transformTimesTampHour(forecastFiveDays.getCity().getSunrise()));
+            forecastFiveDays.getCity().setSunsetHour(this.transformTimesTampHour(forecastFiveDays.getCity().getSunset()));
+            forecastFiveDays.getCity().setQuantityPopulation(this.transformFormatMoreAttractive(forecastFiveDays.getCity().getPopulation()));
+            forecastFiveDays.setDateHourForecast(this.transformDate(forecastFiveDays.getDateTime()));
+            forecastFiveDays.setDateForecast(this.pickUpOnlyDate(forecastFiveDays.getDateHourForecast()));
+            forecastFiveDays.setHourForecast(this.pickUpOnlyTime(forecastFiveDays.getDateHourForecast()));
+        });
+    }
+    private List<ForecastFiveDays> paginateFiveDaysForecasts(Set<? extends ForecastFiveDays> forecasts, Pageable pageable) {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), forecasts.size());
-
-        return new ArrayList<>(forecasts).subList(start, end);
+        List<ForecastFiveDays> paginatedForecasts = new ArrayList<>(forecasts);
+        return paginatedForecasts.subList(start, end);
     }
+
+
 }
