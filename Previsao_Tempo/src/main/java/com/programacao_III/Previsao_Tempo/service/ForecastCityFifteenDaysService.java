@@ -7,15 +7,15 @@ import com.programacao_III.Previsao_Tempo.exceptions.CityNotFoundException;
 import com.programacao_III.Previsao_Tempo.exceptions.ForecastFifteenDaysException;
 import com.programacao_III.Previsao_Tempo.exceptions.InternalServerErrorException;
 import com.programacao_III.Previsao_Tempo.exceptions.PagesEndException;
+import com.programacao_III.Previsao_Tempo.interfaces.IFormatMoreAttractive;
+import com.programacao_III.Previsao_Tempo.interfaces.ITransformDateOrHour;
 import com.programacao_III.Previsao_Tempo.models.hourdawnnightfall.HourDawnNightfall;
 import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFifteenDays;
-import com.programacao_III.Previsao_Tempo.utils.GetData;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class ForecastCityFifteenDaysService extends AuxiliaryMethods {
+public class ForecastCityFifteenDaysService extends VariablesAndCoord implements ITransformDateOrHour, IFormatMoreAttractive {
 
 
     public ForecastFifteenDaysResponseDTO getForecastFifteenDays(String nameCity, Pageable pageable) {

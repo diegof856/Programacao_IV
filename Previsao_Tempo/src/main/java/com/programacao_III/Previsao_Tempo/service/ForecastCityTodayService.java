@@ -10,6 +10,7 @@ import com.programacao_III.Previsao_Tempo.dtos.weatherConditionsDTO.WeatherLastT
 import com.programacao_III.Previsao_Tempo.dtos.weatherConditionsDTO.WeatherLastTwentyFourHoursResponseDTO;
 import com.programacao_III.Previsao_Tempo.exceptions.CityNotFoundException;
 import com.programacao_III.Previsao_Tempo.exceptions.InternalServerErrorException;
+import com.programacao_III.Previsao_Tempo.interfaces.ITransformDateOrHour;
 import com.programacao_III.Previsao_Tempo.models.hourdawnnightfall.HourDawnNightfall;
 import com.programacao_III.Previsao_Tempo.models.weatherconditions.WeatherLastTwentyFourHours;
 
@@ -22,7 +23,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @Service
-public class ForecastCityTodayService extends AuxiliaryMethods {
+public class ForecastCityTodayService extends VariablesAndCoord implements ITransformDateOrHour {
 
     public WeatherConditionsResponseDTO getCondition(String nameCity) {
         try {

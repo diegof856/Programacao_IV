@@ -6,7 +6,10 @@ import com.programacao_III.Previsao_Tempo.dtos.forecastFourDaysDTO.AllForecastFo
 import com.programacao_III.Previsao_Tempo.exceptions.CityNotFoundException;
 import com.programacao_III.Previsao_Tempo.exceptions.InternalServerErrorException;
 import com.programacao_III.Previsao_Tempo.exceptions.PagesEndException;
-import com.programacao_III.Previsao_Tempo.interfaces.PaginatedMapMethods;
+import com.programacao_III.Previsao_Tempo.interfaces.IFormatMoreAttractive;
+import com.programacao_III.Previsao_Tempo.interfaces.IGetDateOrHour;
+import com.programacao_III.Previsao_Tempo.interfaces.IPaginatedMapMethods;
+import com.programacao_III.Previsao_Tempo.interfaces.ITransformDateOrHour;
 import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFourDays;
 
 import org.springframework.data.domain.Pageable;
@@ -20,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ForecastCityFourDaysService extends AuxiliaryMethods implements PaginatedMapMethods<ForecastFourDays> {
+public class ForecastCityFourDaysService extends VariablesAndCoord implements IGetDateOrHour, IFormatMoreAttractive,ITransformDateOrHour, IPaginatedMapMethods<ForecastFourDays> {
 
     public ForecastFourDaysPageableDTO getForecast(String nameCity, Pageable pageable) {
         try {

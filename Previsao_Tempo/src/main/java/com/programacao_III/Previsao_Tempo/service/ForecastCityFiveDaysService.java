@@ -6,21 +6,22 @@ import com.programacao_III.Previsao_Tempo.dtos.forecastFiveDaysDTO.ForecastFiveD
 import com.programacao_III.Previsao_Tempo.exceptions.CityNotFoundException;
 import com.programacao_III.Previsao_Tempo.exceptions.InternalServerErrorException;
 import com.programacao_III.Previsao_Tempo.exceptions.PagesEndException;
-import com.programacao_III.Previsao_Tempo.interfaces.PaginatedMapMethods;
+import com.programacao_III.Previsao_Tempo.interfaces.IFormatMoreAttractive;
+import com.programacao_III.Previsao_Tempo.interfaces.IGetDateOrHour;
+import com.programacao_III.Previsao_Tempo.interfaces.IPaginatedMapMethods;
+import com.programacao_III.Previsao_Tempo.interfaces.ITransformDateOrHour;
 import com.programacao_III.Previsao_Tempo.models.forecasts.ForecastFiveDays;
-import com.programacao_III.Previsao_Tempo.utils.GetData;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ForecastCityFiveDaysService extends AuxiliaryMethods implements PaginatedMapMethods<ForecastFiveDays> {
+public class ForecastCityFiveDaysService extends VariablesAndCoord implements IGetDateOrHour, IFormatMoreAttractive, ITransformDateOrHour, IPaginatedMapMethods<ForecastFiveDays> {
 
     public ForecastFiveDaysPageAbleResponseDTO getForecastFiveDays(String nameCity, Pageable pageable) {
         try {
