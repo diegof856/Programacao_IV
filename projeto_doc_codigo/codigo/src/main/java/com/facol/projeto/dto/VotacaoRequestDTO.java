@@ -4,13 +4,13 @@ import com.facol.projeto.model.Pauta;
 
 import java.time.Instant;
 
-public class SessaoVotacaoRequestDTO {
+public class VotacaoRequestDTO {
     private String status;
     private Instant dataInicio;
     private Instant dataFim;
     private Pauta idPauta;
 
-    public SessaoVotacaoRequestDTO(String status, Instant dataInicio, Instant dataFim, Pauta idPauta) {
+    public VotacaoRequestDTO(String status, Instant dataInicio, Instant dataFim, Pauta idPauta) {
         this.status = status;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
