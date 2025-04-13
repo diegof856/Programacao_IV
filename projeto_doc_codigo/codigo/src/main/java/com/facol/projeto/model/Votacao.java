@@ -10,15 +10,17 @@ import java.util.Objects;
 @Table(name = "tb_votacao")
 @Entity
 public class Votacao implements Serializable {
-    @Id
+
+	private static final long serialVersionUID = 1L;
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  idVotacao;
     private Pauta pauta;
     private Instant dataInicio;
     private Instant dataFim;
     private Integer tempoVotacao;
-    private StatusVotacao statusVotacao;
-
+    private Integer statusVotacao;
+    private Integer quantidadeVotos;
     public Votacao() {
 
     }
@@ -28,12 +30,8 @@ public class Votacao implements Serializable {
         this.pauta = pauta;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
-        if(tempoVotacao == null){
-            this.tempoVotacao = 1;
-        }else {
-            this.tempoVotacao = tempoVotacao;
-        }
-        this.statusVotacao = statusVotacao;
+        this.tempoVotacao = tempoVotacao;
+		setStatusVotacao(statusVotacao);
     }
 
     public Long getIdVotacao() {
@@ -77,14 +75,24 @@ public class Votacao implements Serializable {
     }
 
     public StatusVotacao getStatusVotacao() {
-        return statusVotacao;
+        return StatusVotacao.valorDeVotacao(this.statusVotacao);
     }
 
     public void setStatusVotacao(StatusVotacao statusVotacao) {
-        this.statusVotacao = statusVotacao;
+    	if(statusVotacao != null) {
+    		this.statusVotacao = statusVotacao.getCodigo();
+    	}
     }
+    
+    public Integer getQuantidadeVotos() {
+		return quantidadeVotos;
+	}
 
-    @Override
+	public void setQuantidadeVotos(Integer quantidadeVotos) {
+		this.quantidadeVotos = quantidadeVotos;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Votacao votacao = (Votacao) o;
