@@ -15,6 +15,7 @@ public class Votacao implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  idVotacao;
+
     private Pauta pauta;
     private Instant dataInicio;
     private Instant dataFim;

@@ -1,7 +1,7 @@
 package com.facol.projeto.enums;
 
 public enum TipoVoto {
-	SIM(1), NÃO(2);
+	SIM(1), NAO(2);
 
 	private Integer codigo;
 

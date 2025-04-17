@@ -1,7 +1,7 @@
 package com.facol.projeto.enums;
 
 public enum StatusPauta {
-	APROVADA(1), REPROVADA(2), EM_VOTOÇÃO(3);
+	APROVADA(1), REPROVADA(2), EM_VOTOCAO(3);
 
 	private Integer codigo;
 	

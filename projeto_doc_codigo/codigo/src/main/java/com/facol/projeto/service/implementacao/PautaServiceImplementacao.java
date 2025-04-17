@@ -31,7 +31,15 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 	@Override
 	public void cadastrarPauta(Associado associado, PautaRequestDTO pautaRequestDTO) {
 		this.validacaoStrategyTituloDescricao.validacao(pautaRequestDTO);
-		pautaRepositorio.save(this.pautaFactory.criarPauta(pautaRequestDTO, associado));
+		Pauta pauta = this.pautaFactory.criarPauta(pautaRequestDTO, associado);
+		pautaRepositorio.save(pauta);
+		abrirVotacao(pauta);
+	}
+
+	private void abrirVotacao(Pauta pauta){
+  if(pauta.getEstadoPauta().getCodigo() == 3){
+
+  }
 	}
 
 	@Override
