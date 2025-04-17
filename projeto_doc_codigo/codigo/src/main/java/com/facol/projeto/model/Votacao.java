@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Table(name = "tb_votacao")
@@ -16,22 +18,27 @@ public class Votacao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  idVotacao;
 
-    private Pauta pauta;
+
     private Instant dataInicio;
     private Instant dataFim;
     private Integer tempoVotacao;
     private Integer statusVotacao;
     private Integer quantidadeVotos;
+
+    @OneToOne
+    @JoinColumn(name = "id_pauta")
+    private Pauta pauta;
+
     public Votacao() {
 
     }
 
-    public Votacao(Long idVotacao, Pauta pauta, Instant dataInicio, Instant dataFim, Integer tempoVotacao, StatusVotacao statusVotacao) {
+    public Votacao(Long idVotacao, Instant dataInicio, Pauta pauta,Instant dataFim, Integer tempoVotacao, StatusVotacao statusVotacao) {
         this.idVotacao = idVotacao;
-        this.pauta = pauta;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.tempoVotacao = tempoVotacao;
+        this.pauta = pauta;
 		setStatusVotacao(statusVotacao);
     }
 
@@ -46,6 +53,7 @@ public class Votacao implements Serializable {
     public Pauta getPauta() {
         return pauta;
     }
+
 
     public void setPauta(Pauta pauta) {
         this.pauta = pauta;

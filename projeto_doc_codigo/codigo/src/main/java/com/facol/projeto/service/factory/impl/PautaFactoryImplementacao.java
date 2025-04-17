@@ -27,7 +27,7 @@ public class PautaFactoryImplementacao implements PautaFactory {
 	}
 	@Override
 	public Pauta criarPauta(PautaRequestDTO pautaRequestDTO, Associado associado) {
-		 return new Pauta(null, Instant.now(), pautaRequestDTO.getDescricao(), pautaRequestDTO.getTitulo(), StatusPauta.EM_VOTOÇÃO, associado);
+		 return new Pauta(null, Instant.now(), pautaRequestDTO.getDescricao(), pautaRequestDTO.getTitulo(), StatusPauta.EM_VOTOCAO, associado);
 		
 	}
 	

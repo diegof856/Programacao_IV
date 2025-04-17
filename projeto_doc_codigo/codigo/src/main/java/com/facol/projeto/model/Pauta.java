@@ -28,13 +28,12 @@ public class Pauta implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_associado")
 	private Associado associado;
+	@OneToOne(mappedBy = "pauta")
+	private Votacao votacao;
 
-	public Pauta() {
-
-	}
 
 	public Pauta(Long id_pauta, Instant dataCricao, String descricao, String titulo, StatusPauta statusPauta,
-			Associado associado) {
+				 Associado associado) {
 		this.id_pauta = id_pauta;
 		this.dataCricao = dataCricao;
 		this.descricao = descricao;
@@ -42,6 +41,11 @@ public class Pauta implements Serializable {
 		setEstadoPauta(statusPauta);
 		this.associado = associado;
 	}
+
+	public Pauta() {
+
+	}
+
 
 	public Long getId_pauta() {
 		return id_pauta;
