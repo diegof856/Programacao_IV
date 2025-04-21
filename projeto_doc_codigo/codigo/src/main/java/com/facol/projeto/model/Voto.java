@@ -1,11 +1,18 @@
 package com.facol.projeto.model;
 
-import com.facol.projeto.enums.TipoVoto;
-import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+
+import com.facol.projeto.enums.TipoVoto;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Table(name = "tb_voto")
 @Entity
@@ -15,8 +22,14 @@ public class Voto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idVoto;
-	private Votacao idVotacao;
-	private Associado idAssociado;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "id_votacao")
+	private Votacao votacao;
+	@ManyToOne
+	@JoinColumn(name = "id_associado")
+	private Associado associado;
 	private Integer statusVoto;
 	private Instant dataVoto;
 
@@ -24,12 +37,12 @@ public class Voto implements Serializable {
 
 	}
 
-	public Voto(Long idVoto, Votacao idVotacao, Associado idAssociado, TipoVoto statusVoto, Instant dataVoto) {
+	public Voto(Long idVoto, Associado associado, TipoVoto statusVoto, Instant dataVoto, Votacao votacao) {
 		this.idVoto = idVoto;
-		this.idVotacao = idVotacao;
-		this.idAssociado = idAssociado;
+		this.associado = associado;
 		setStatusVoto(statusVoto);
 		this.dataVoto = dataVoto;
+		this.votacao = votacao;
 	}
 
 	public Long getIdVoto() {
@@ -40,20 +53,12 @@ public class Voto implements Serializable {
 		this.idVoto = idVoto;
 	}
 
-	public Votacao getIdVotacao() {
-		return idVotacao;
+	public Associado getAssociado() {
+		return associado;
 	}
 
-	public void setIdVotacao(Votacao idVotacao) {
-		this.idVotacao = idVotacao;
-	}
-
-	public Associado getIdAssociado() {
-		return idAssociado;
-	}
-
-	public void setIdAssociado(Associado idAssociado) {
-		this.idAssociado = idAssociado;
+	public void setIdAssociado(Associado associado) {
+		this.associado = associado;
 	}
 
 	public TipoVoto getStatusVoto() {
@@ -73,6 +78,14 @@ public class Voto implements Serializable {
 
 	public void setDataVoto(Instant dataVoto) {
 		this.dataVoto = dataVoto;
+	}
+
+	public Votacao getVotacao() {
+		return votacao;
+	}
+
+	public Votacao setVotacao(Votacao votacao) {
+		return this.votacao = votacao;
 	}
 
 	@Override

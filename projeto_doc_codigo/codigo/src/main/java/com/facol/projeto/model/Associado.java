@@ -22,16 +22,19 @@ public class Associado implements Serializable {
 	private Long id_associado;
 	private String nome;
 	private String cpf;
-	
 
 	@OneToMany(mappedBy = "associado")
 	private List<Pauta> pautas = new ArrayList<>();
+
+
+	@OneToMany(mappedBy = "associado")
+	private List<Voto> votos = new ArrayList<>();
 
 	public Associado(Long id_associado, String nome, String cpf) {
 		this.id_associado = id_associado;
 		this.nome = nome;
 		this.cpf = cpf;
-		
+
 	}
 
 	public Associado() {
@@ -65,6 +68,11 @@ public class Associado implements Serializable {
 	public List<Pauta> getPauta() {
 		return pautas;
 	}
+
+	public List<Voto> getVotos() {
+		return votos;
+	}
+
 
 	@Override
 	public boolean equals(Object o) {

@@ -5,23 +5,18 @@ import java.time.Instant;
 public class PautaRequestDTO {
 
 
-    private Instant dataCricao;
+    
     private String descricao;
     private String titulo;
+    private Integer tempoVotacao;
 
-    public PautaRequestDTO(Instant dataCricao, String descricao, String titulo) {
-        this.dataCricao = dataCricao;
+    public PautaRequestDTO(Instant dataCricao, String descricao, String titulo, Integer tempoVotacao) {
+      
         this.descricao = descricao;
         this.titulo = titulo;
+        this.tempoVotacao = tempoVotacao;
     }
 
-    public Instant getDataCricao() {
-        return dataCricao;
-    }
-
-    public void setDataCricao(Instant dataCricao) {
-        this.dataCricao = dataCricao;
-    }
 
     public String getDescricao() {
         return descricao;
@@ -38,4 +33,14 @@ public class PautaRequestDTO {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+	public Integer getTempoVotacao() {
+		return tempoVotacao;
+	}
+
+	public void setTempoVotacao(Integer tempoVotacao) {
+		this.tempoVotacao = tempoVotacao;
+	}
+    
+    
 }

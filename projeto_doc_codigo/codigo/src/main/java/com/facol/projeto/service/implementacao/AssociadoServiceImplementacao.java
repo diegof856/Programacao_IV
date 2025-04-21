@@ -12,18 +12,21 @@ import com.facol.projeto.dto.AssociadoRequestDTO;
 import com.facol.projeto.dto.AssociadoResponseDTO;
 import com.facol.projeto.exceptions.AssociadoNaoEncontrado;
 import com.facol.projeto.model.Associado;
-import com.facol.projeto.repositories.AssociadoRepository;
+import com.facol.projeto.repositories.AssociadoRepositorio;
 import com.facol.projeto.service.AssociadoCadastroAlteracaoService;
 import com.facol.projeto.service.AssociadoConsultaService;
+import com.facol.projeto.service.PautaConsultarService;
 import com.facol.projeto.service.factory.AssociadoFactory;
 import com.facol.projeto.service.validacao.ValidacaoStrategy;
 
 @Service
 public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracaoService, AssociadoConsultaService {
 	@Autowired
-	private AssociadoRepository associadoRepository;
+	private AssociadoRepositorio associadoRepository;
 	@Autowired
 	private AssociadoFactory associadoFactory;
+	@Autowired
+	private PautaConsultarService pautaService;
 	@Autowired
 	@Qualifier("cpfValidacao")
 	private ValidacaoStrategy<AssociadoRequestDTO> validacaoStrategy;
@@ -43,17 +46,20 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 
 	@Override
 	public Page<AssociadoResponseDTO> buscarAssociados(Pageable pageable) {
-		return associadoRepository.findAll(pageable).map(associado -> this.associadoFactory.transformarAssociado(associado));
+		this.associadoRepository.findAll()
+				.forEach(associado -> this.pautaService.pegarPautaParaAtualizar(associado.getPauta()));
+		return associadoRepository.findAll(pageable)
+				.map(associado -> this.associadoFactory.transformarAssociado(associado));
 
 	}
 
 	@Override
 	public Associado buscarAssociadorPorId(Long id) {
 		Optional<Associado> objAssociado = associadoRepository.findById(id);
-		return objAssociado.orElseThrow(() -> new AssociadoNaoEncontrado());
+		objAssociado.orElseThrow(() -> new AssociadoNaoEncontrado());
+		this.pautaService.pegarPautaParaAtualizar(objAssociado.get().getPauta());
+		return objAssociado.get();
 	}
-
-	
 
 	@Override
 	public AssociadoResponseDTO buscarAssociadoPorIdDTO(Long id) {
@@ -65,13 +71,13 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 		Associado associado = this.buscarAssociadorPorId(id);
 		associado.setNome(associadoRequestDTO.getNome());
 		associado.setCpf(associadoRequestDTO.getCpf());
-			this.associadoRepository.save(associado);
+		this.associadoRepository.save(associado);
 	}
 
 	@Override
 	public void deletarAssociado(Long id) {
 		this.associadoRepository.deleteById(id);
-		
+
 	}
 
 }
