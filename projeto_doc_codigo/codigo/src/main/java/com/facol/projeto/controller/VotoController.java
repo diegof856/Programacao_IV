@@ -23,7 +23,7 @@ public class VotoController {
 		this.votoService = votoService;
 	}
 	@PostMapping("/{idAssociado}/{idVotacao}")
-	public ResponseEntity<Void> inserirVoto(@PathVariable Long idAssociado,@PathVariable Long idVotacao, @RequestBody VotoRequestDTO votoRequest){
+	public ResponseEntity<Void> inserirVoto(@PathVariable Long idAssociado, @PathVariable Long idVotacao, @RequestBody VotoRequestDTO votoRequest){
 		this.votoService.inserirVoto(idAssociado, idVotacao,votoRequest);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

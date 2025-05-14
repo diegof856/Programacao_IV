@@ -45,6 +45,10 @@ public class PautaController {
     return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @GetMapping
+    public ResponseEntity<Page<PautaResponseDTO>> pegaPautasAberto(@PageableDefault(page = 0, size = 8) Pageable pageAble){
+    	return ResponseEntity.ok(this.consultaService.pegarEmAberto(pageAble));
+    }
+    @GetMapping("/todasPautas")
     public ResponseEntity<Page<PautaResponseDTO>> pegarPautas(@PageableDefault(page = 0, size = 8) Pageable pageAble){
     	return ResponseEntity.ok(this.consultaService.buscarPautas(pageAble));
     }

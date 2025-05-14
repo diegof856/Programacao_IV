@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.facol.projeto.dto.AssociadoRequestDTO;
 import com.facol.projeto.dto.AssociadoResponseDTO;
+import com.facol.projeto.dto.LoginResponseDTO;
 import com.facol.projeto.exceptions.AssociadoNaoEncontrado;
 import com.facol.projeto.model.Associado;
 import com.facol.projeto.repositories.AssociadoRepositorio;
@@ -29,7 +30,7 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 	private PautaConsultarService pautaService;
 	@Autowired
 	@Qualifier("cpfValidacao")
-	private ValidacaoStrategy<AssociadoRequestDTO> validacaoStrategy;
+	private ValidacaoStrategy<String> validacaoStrategy;
 	@Autowired
 	@Qualifier("nomeValidacao")
 	private ValidacaoStrategy<String> validacaoStrategyNome;
@@ -37,9 +38,9 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 	@Override
 	public void cadastrarAssociado(AssociadoRequestDTO associadoRequestDTO) {
 
-		this.validacaoStrategy.validacao(associadoRequestDTO);
+		this.validacaoStrategy.validacao(associadoRequestDTO.getCpf());
 		this.validacaoStrategyNome.validacao(associadoRequestDTO.getNome());
-		Associado associado = associadoFactory.cricarAssociado(associadoRequestDTO);
+		Associado associado = associadoFactory.criarAssociado(associadoRequestDTO);
 		associadoRepository.save(associado);
 
 	}
@@ -65,7 +66,10 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 	public AssociadoResponseDTO buscarAssociadoPorIdDTO(Long id) {
 		return this.associadoFactory.transformarAssociado(this.buscarAssociadorPorId(id));
 	}
-
+	@Override
+	public LoginResponseDTO buscarPorCpf(String cpf) {
+		return this.associadoFactory.criarLogin(this.associadoRepository.findByCpf(cpf).orElseThrow(() -> new AssociadoNaoEncontrado()));
+	}
 	@Override
 	public void alterarAssociado(Long id, AssociadoRequestDTO associadoRequestDTO) {
 		Associado associado = this.buscarAssociadorPorId(id);
@@ -79,5 +83,7 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 		this.associadoRepository.deleteById(id);
 
 	}
+
+	
 
 }

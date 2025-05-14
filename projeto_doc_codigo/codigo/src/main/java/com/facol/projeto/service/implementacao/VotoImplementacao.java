@@ -21,27 +21,37 @@ public class VotoImplementacao implements VotoInsercaoService {
 	private final VotoFactory votoFactory;
 	private final VotoRepositorio votoRepositorio;
 	private final VotacaoConsultaService votacaoConsultaService;
-
-	@Qualifier("TempoVotacaoValidacao")
+	
+	
+	@Qualifier("ValidacaoVoto")
 	private final ValidacaoStrategy<VotoRequestDTO> votoValidacao;
 	@Qualifier("ValidacaoVotacaoEncerrada")
 	private final ValidacaoStrategy<Votacao> votacaoValidacao; 
+	@Qualifier("cpfValidacao")
+	private final ValidacaoStrategy<String> validarCpf;
+
+	
 	public VotoImplementacao(AssociadoConsultaService associadoConsultaService, VotoFactory votoFactory,
 			VotoRepositorio votoRepositorio, VotacaoConsultaService votacaoConsultaService,
-			ValidacaoStrategy<VotoRequestDTO> votoValidacao, ValidacaoStrategy<Votacao> votacaoValidacao) {
+			@Qualifier("ValidacaoVoto") ValidacaoStrategy<VotoRequestDTO> votoValidacao,@Qualifier("ValidacaoVotacaoEncerrada") ValidacaoStrategy<Votacao> votacaoValidacao,
+			@Qualifier("cpfValidacao")ValidacaoStrategy<String> validarCpf) {
 		this.associadoConsultaService = associadoConsultaService;
 		this.votoFactory = votoFactory;
 		this.votoRepositorio = votoRepositorio;
 		this.votacaoConsultaService = votacaoConsultaService;
 		this.votoValidacao = votoValidacao;
 		this.votacaoValidacao = votacaoValidacao;
+		this.validarCpf = validarCpf;
+		
+		
 	}
 
 	@Override
-	public void inserirVoto(Long idAssociado, Long idVotacao, VotoRequestDTO votoRequest) {
+	public void inserirVoto(Long idAssociado,Long idVotacao, VotoRequestDTO votoRequest) {
 		
 		this.votoValidacao.validacao(votoRequest);
 		this.votacaoValidacao.validacao(this.votacaoConsultaService.buscarVotacao(idVotacao));
+	
 		Voto voto = this.votoFactory.criarVoto(this.associadoConsultaService.buscarAssociadorPorId(idAssociado), this.tratarVoto(votoRequest.getVoto()), this.votacaoConsultaService.buscarVotacao(idVotacao));
 		
 		this.votacaoConsultaService.computarVotos(voto);

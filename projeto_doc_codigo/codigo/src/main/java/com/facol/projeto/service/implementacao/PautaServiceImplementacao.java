@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +72,13 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 		return this.pautaRepositorio.findAll(pageAble).map(pauta -> pautaFactory.criarPautaResponseDTO(pauta));
 
 	}
+	@Override
+	public Page<PautaResponseDTO> pegarEmAberto(Pageable pageAble) {
+		Page<PautaResponseDTO> pautas = this.buscarPautas(pageAble);
+		List<PautaResponseDTO> filtradas = pautas.stream().filter(pauta -> pauta.status_Pauta() == StatusPauta.EM_VOTOCAO).toList();
+		return new PageImpl<>(filtradas, pageAble, filtradas.size());
+	}
+
 
 	@Override
 	public PautaResponseDTO pegarPauta(Long id) {
@@ -97,4 +105,5 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 		pautas.forEach(pauta -> this.votacaoService.buscarVotacaoPorPauta(pauta.getId_pauta()));
 	}
 
+	
 }

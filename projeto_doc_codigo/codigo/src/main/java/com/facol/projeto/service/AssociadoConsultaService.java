@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.facol.projeto.dto.AssociadoResponseDTO;
+import com.facol.projeto.dto.LoginResponseDTO;
 import com.facol.projeto.model.Associado;
 
 public interface AssociadoConsultaService {
@@ -14,5 +15,5 @@ public interface AssociadoConsultaService {
 
 	AssociadoResponseDTO buscarAssociadoPorIdDTO(Long id);
 	
-	
+	LoginResponseDTO buscarPorCpf(String cpf);
 }

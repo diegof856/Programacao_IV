@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.facol.projeto.dto.AssociadoRequestDTO;
 import com.facol.projeto.dto.AssociadoResponseDTO;
+import com.facol.projeto.dto.LoginRequestDTO;
+import com.facol.projeto.dto.LoginResponseDTO;
 import com.facol.projeto.service.AssociadoCadastroAlteracaoService;
 import com.facol.projeto.service.AssociadoConsultaService;
 
@@ -32,6 +34,11 @@ public class AssociadoController {
 	public ResponseEntity<Void> cadastrarAssociado(@RequestBody AssociadoRequestDTO requestAssociadoDTO) {
 		associadoCadastroAlteracaoService.cadastrarAssociado(requestAssociadoDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	@PostMapping("/login")
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO requestLoginDTO){
+		return ResponseEntity.ok(associadoConsultaService.buscarPorCpf(requestLoginDTO.getCpf()));
+		
 	}
 	@GetMapping
 	public ResponseEntity<Page<AssociadoResponseDTO>> listarAssociados(@PageableDefault(page = 0, size = 8) Pageable pageAble){

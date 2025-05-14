@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.facol.projeto.dto.AssociadoRequestDTO;
 import com.facol.projeto.dto.AssociadoResponseDTO;
 import com.facol.projeto.dto.AssociadoResponseVotoDTO;
+import com.facol.projeto.dto.LoginResponseDTO;
 import com.facol.projeto.model.Associado;
 import com.facol.projeto.service.factory.AssociadoFactory;
 import com.facol.projeto.service.factory.PautaFactory;
@@ -19,7 +20,7 @@ public class AssociadoFactoryImplementacao implements AssociadoFactory {
 	}
 
 	@Override
-	public Associado cricarAssociado(AssociadoRequestDTO associadoRequestDTO) {
+	public Associado criarAssociado(AssociadoRequestDTO associadoRequestDTO) {
 
 		return new Associado(null, associadoRequestDTO.getNome(), associadoRequestDTO.getCpf());
 	}
@@ -34,6 +35,13 @@ public class AssociadoFactoryImplementacao implements AssociadoFactory {
 	public AssociadoResponseVotoDTO transformarAssociadoVotoDTO(Associado associado) {
 		
 		return new AssociadoResponseVotoDTO(associado.getId_associado(), associado.getNome());
+	}
+
+
+	@Override
+	public LoginResponseDTO criarLogin(Associado associado) {
+		
+		return new LoginResponseDTO(associado.getId_associado(), associado.getNome());
 	}
 
 }

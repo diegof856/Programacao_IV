@@ -12,4 +12,5 @@ public interface PautaConsultarService {
 	Page<PautaResponseDTO> buscarPautas(Pageable pageAble);
 	PautaResponseDTO pegarPauta(Long id);
 	void pegarPautaParaAtualizar(List<Pauta> pautas);
+	Page<PautaResponseDTO> pegarEmAberto(Pageable pageAble);
 }

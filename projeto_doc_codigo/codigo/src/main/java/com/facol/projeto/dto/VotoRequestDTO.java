@@ -7,6 +7,7 @@ public class VotoRequestDTO {
 	public VotoRequestDTO(String voto) {
 
 		this.voto = voto;
+		
 
 	}
 
@@ -17,4 +18,6 @@ public class VotoRequestDTO {
 	public void setVoto(String voto) {
 		this.voto = voto;
 	}
+
+	
 }
