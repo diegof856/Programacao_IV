@@ -1,0 +1,8 @@
+package com.facol.projeto.dto;
+
+import com.facol.projeto.enums.StatusPauta;
+import com.facol.projeto.model.Associado;
+
+public record PautaResponseDTO(Long id, String data_criacao, String titulo, String descricao, StatusPauta status_Pauta, String Tempo_Votacao) {
+
+}

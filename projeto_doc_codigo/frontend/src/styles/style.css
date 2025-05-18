@@ -1,0 +1,159 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.login .conteudo {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh; /* Garante que a altura seja 100% da tela */
+  overflow: hidden;
+}
+
+.login .lado-esquerdo {
+  height: 100%;  /* Ocupa toda a altura da tela */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: 0;
+}
+
+.login .lado-esquerdo img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* Estica a imagem para preencher totalmente a área */
+  object-position: center;
+}
+
+.login .lado-direito {
+  width: 50%;
+  height: 100%;
+  margin-left:3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login .icone {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.login .texto-institucional {
+  font-size: 12px;
+  font-weight: 100;
+  text-align: center;
+}
+
+.login .formulario {
+  width: 100%;
+  max-width: 450px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.entrada.erro {
+  border: 1px solid red;
+}
+
+.mensagem-erro-campo {
+  font-size: 12px;
+  color: red;
+  height: 16px;
+  margin-top: 4px;
+  margin-left: 4px;
+  transition: all 0.3s ease;
+}
+
+.campo {
+  margin-bottom: 1.5rem;
+  width: 100%;
+  position: relative;
+}
+
+.rotulo {
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.entrada {
+  background-color: #ffffff;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  height: 44px;
+}
+
+.link-cadastro .descricao {
+  font-size: 14px;
+  text-align: center;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.grupo-botao {
+  width: 100%;
+}
+
+.botao {
+  background: linear-gradient(90deg, #bb0d0d 0%, #f32727 100%);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.75rem;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.botao:hover {
+  background: linear-gradient(90deg, #a30b0b 0%, #d22020 100%);
+}
+
+.texto-botao {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.texto-recuperar {
+  font-size: 14px;
+  color: #777;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.texto-recuperar:hover {
+  color: red;
+}
+.mensagem-erro-geral {
+  color: red;
+  margin-top: 10px;
+  font-size: 24px;
+  text-align: center;
+}

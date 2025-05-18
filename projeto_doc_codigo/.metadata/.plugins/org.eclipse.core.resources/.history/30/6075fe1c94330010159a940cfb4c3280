@@ -1,0 +1,5 @@
+package com.facol.projeto.service.validacao.impl;
+
+public class CpfUnicosValidacao {
+
+}

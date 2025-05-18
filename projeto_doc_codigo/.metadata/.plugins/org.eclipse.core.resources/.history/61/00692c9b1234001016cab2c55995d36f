@@ -1,0 +1,7 @@
+package com.facol.projeto.dto;
+
+import com.facol.projeto.model.Pauta;
+
+public record PautaResponseDTO(Pauta pauta) {
+
+}

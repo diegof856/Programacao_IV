@@ -1,0 +1,513 @@
+/* ===========================
+   ESTILOS BASE E RESET
+   =========================== */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    font-family: Montserrat, sans-serif;
+}
+
+/* ===========================
+   LAYOUT PRINCIPAL
+   =========================== */
+.menu {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+}
+
+/* ===========================
+   BARRA SUPERIOR
+   =========================== */
+.menu .barra-superior {
+    width: 100%;
+    padding: 15px 30px;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #900;
+}
+
+.menu .coluna {
+    flex: 0 0 33.33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Info do usuário */
+.menu .info-usuario {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.menu .nome-usuario {
+    font-size: 20px;
+    font-weight: bold;
+    color: #900000;
+    margin-bottom: 2px;
+    word-break: break-word;
+}
+
+.menu .cpf-usuario {
+    font-size: 14px;
+    color: #666666;
+}
+
+/* Logo */
+.menu .imagem-logo img {
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Botão de logout */
+.menu .botao-wrapper {
+    justify-content: flex-end;
+}
+
+.menu .botao-deslogar {
+    background-color: transparent;
+    color: #900000;
+    border: 1px solid #b30000;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu .botao-deslogar:hover {
+    background-color: #ffe6e6;
+    color: #900000;
+}
+
+/* ===========================
+   IMAGEM LATERAL
+   =========================== */
+.menu .imagem-lateral {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.menu .imagem-lateral img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+}
+
+/* ===========================
+   TÍTULO DAS VOTAÇÕES
+   =========================== */
+.menu .texto-votacoes {
+    margin-top: 40px;
+    height: 55px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 30px;
+    color: #000000;
+}
+
+.menu .texto-votacoes h3 {
+    font-size: 24px;
+    margin: 0 0 5px 0;
+    color: #900000;
+}
+
+.menu .texto-votacoes p {
+    font-size: 16px;
+    margin: 0;
+    color: #7e7e7e;
+}
+
+/* ===========================
+   LISTA DE VOTAÇÕES
+   =========================== */
+.caixa-votacoes {
+    max-width: 1920px;
+    width: 100%;
+    padding: 20px;
+    margin: 10px 0px;
+}
+
+.lista-votacoes {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.lista-votacoes li {
+    height: 90px;
+    background-color: #ffffff;
+    padding: 14px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #900000;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.lista-votacoes li:hover {
+    background-color: #e0e0e0;
+}
+
+.subinfo {
+    font-size: 13px;
+    color: #777;
+    margin-top: 4px;
+}
+
+/* ===========================
+   CAIXA DE VOTAÇÃO ABERTA
+   =========================== */
+.caixa-votacao-aberta {
+    padding: 30px;
+    border-radius: 8px;
+    margin: 40px auto;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ===========================
+   OPÇÕES DE VOTAÇÃO
+   =========================== */
+.opcoes-votacao {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    background-color: transparent;
+}
+
+.opcoes-votacao li {
+    padding: 10px;
+    margin: 0;
+    background: #f5f5f5;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.opcoes-votacao li:first-child,
+.opcoes-votacao li:last-child {
+    flex: 1.5;
+    font-weight: bold;
+    font-size: 18px;
+    color: #900000;
+}
+
+.opcoes-votacao li:hover {
+    background-color: #e0e0e0;
+}
+
+/* ===========================
+   BOTOES VOTAR / FECHAR / EDITAR / NOVA VOTAÇÃO
+   =========================== */
+
+.botao-votar-um {
+    min-height: 100px;
+    max-height: 100px;
+    max-width: 250px;
+    min-width: 250px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+    padding: 40px 100px;
+    border: none;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-family: "Montserrat Black", sans-serif;
+    border-radius: 6px;
+    background-color: rgba(32, 178, 32, 0.8);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.botao-votar-um:hover {
+    background-color: #228b22;
+}
+
+.botao-votar-dois {
+    min-height: 100px;
+    max-height: 100px;
+    max-width: 250px;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 100px;
+    border: none;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-family: "Montserrat Black", sans-serif;
+    border-radius: 6px;
+    background-color: rgba(40, 143, 208, 0.89);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.botao-votar-dois:hover {
+    background-color: #1c6691;
+}
+
+.botao-editar {
+    background-color: #47e80f;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: center;
+    transition: background-color 0.3s;
+}
+
+.botao-editar:hover {
+    background-color: rgb(255, 220, 0);
+}
+
+.botao-nova-votacao {
+    background-color: #900000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "Montserrat SemiBold";
+    display: flex;             /* transforma em flex container */
+    align-items: center;       /* centraliza verticalmente */
+    justify-content: center;   /* centraliza horizontalmente */
+
+    height: 90px;              /* mesma altura das outras caixas */
+    transition: background-color 0.3s;
+}
+
+.botao-nova-votacao:hover {
+    background-color: #b30000;
+}
+
+/* ===========================
+   CAIXA DE TEXTO
+   =========================== */
+.caixa-votacao-aberta input[type="text"] {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 16px;
+    font-size: 20px;
+    border: 2px solid #900000;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.caixa-votacao-aberta input[type="text"]:focus {
+    outline: none;
+    border-color: #b30000;
+}
+
+/* ===========================
+   MENSAGEM DE AVISO
+   =========================== */
+.mensagem-voto {
+    padding: 10px;
+    border-radius: 4px;
+    min-height: 40px;
+    font-weight: bold;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.mensagem-voto.sucesso {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.mensagem-voto.erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ===========================
+   BARRA DE PROGRESSO - VOTAÇÃO
+   =========================== */
+.barra-porcentagem {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    margin-bottom: 15px;
+}
+
+.barra-porcentagem > div {
+    height: 100%;
+    width: var(--largura, 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    user-select: none;
+    transition: width 0.3s ease;
+    font-family: "Montserrat Black", sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.barra-opcao1 {
+    background-color: #208B20; /* verde */
+}
+
+.barra-opcao2 {
+    background-color: #288FD0; /* azul */
+}
+
+/* ===========================
+   BOTÕES DE VOTAÇÃO LADO A LADO
+   =========================== */
+.botoes-opcoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.botao-votar-um,
+.botao-votar-dois {
+    flex: 1;
+    max-width: 300px;
+    padding: 40px 0;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 6px;
+    font-family: "Montserrat Black", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: white;
+    border: none;
+}
+
+/* ===========================
+   BOTÕES DE AÇÃO: VOLTAR, EDITAR, DELETAR
+   =========================== */
+.botoes-acoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.botoes-acoes button {
+    flex: 1;
+    max-width: 150px;
+    padding: 12px 0;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+    text-align: center;
+    font-family: "Montserrat Black", sans-serif;
+}
+
+
+.btn-voltar {
+    background-color: gray;
+}
+
+.btn-voltar:hover {
+    background-color: darkgray;
+}
+
+.btn-editar {
+    background-color: #eea846;
+}
+
+.btn-editar:hover {
+    background-color: #ecd906;
+}
+
+.btn-deletar {
+    background-color: #cc0000;
+}
+
+.btn-deletar:hover {
+    background-color: #ff0000;
+}
+
+
+
+/* ===========================
+   RODAPÉ
+   =========================== */
+.rodape {
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 15px 0;
+    text-align: center;
+    border-top: 2px solid #900000;
+}
+
+.rodape .header h1,
+.rodape .header h2 {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    font-weight: normal;
+}
+
+.rodape .header h1 {
+    font-family: "Montserrat SemiBold";
+    font-size: 20px;
+    color: #900000;
+}
+
+.rodape .header h2 {
+    font-size: 16px;
+    color: #666;
+}

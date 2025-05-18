@@ -1,0 +1,18 @@
+package com.facol.projeto.service.validacao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.facol.projeto.model.Associado;
+
+@Component("validacaoCpfUnicos")
+public class CpfUnicosValidacao implements ValidacaoStrategy<List<Associado> associados> {
+
+	for(Associado associado:associados) {
+		if(associado.getCpf().equalsIgnoreCase(cpf)) {
+			throw new CpfNãoUnicos();
+		}
+	}
+	
+}
