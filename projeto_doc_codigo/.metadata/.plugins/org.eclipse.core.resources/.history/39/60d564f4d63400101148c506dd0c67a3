@@ -1,0 +1,6 @@
+package com.facol.projeto.cors;
+
+@Configuration
+public class ConfigCors {
+
+}

@@ -30,6 +30,7 @@ export const usePost = () => {
              const requisicao = await fetch(url, config);
                 if (!requisicao.ok) {
                     const erroTexto = await requisicao.json();
+                  
                     throw {mensagem: erroTexto.mensagem, status: erroTexto.status};
                 }
                setResposta(await requisicao.json());

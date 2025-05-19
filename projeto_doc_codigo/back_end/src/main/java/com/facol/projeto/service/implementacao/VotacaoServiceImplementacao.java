@@ -56,9 +56,11 @@ public class VotacaoServiceImplementacao implements VotacaoConsultaService {
 	}
 
 	@Override
-	public void buscarVotacaoPorPauta(Long idPauta) {
+	public VotacaoResponseDTO buscarVotacaoPorPauta(Long idPauta) {
 		Votacao votacao = votacaoRepositorio.findByPauta_Id(idPauta);
+		
 		this.atualizarVotacao(votacao);
+		return this.votacaoFactory.criarVotacaoDTO(votacao);
 	}
 
 	private void atualizarVotacao(Votacao votacao) {

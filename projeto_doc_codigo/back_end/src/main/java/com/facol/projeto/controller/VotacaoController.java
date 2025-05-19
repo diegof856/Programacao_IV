@@ -31,4 +31,8 @@ public class VotacaoController {
 	public ResponseEntity<VotacaoResponseDTO> pegarSessaoVotacao(@PathVariable Long id){
 		return ResponseEntity.ok(this.votacaoService.consultarVotacao(id));
 	}
+	@GetMapping("pauta/{idPauta}")
+	public ResponseEntity<VotacaoResponseDTO> pegarVotacaoPorPauta(@PathVariable Long idPauta){
+		return ResponseEntity.ok(this.votacaoService.buscarVotacaoPorPauta(idPauta));
+	}
 }

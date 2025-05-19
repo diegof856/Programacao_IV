@@ -4,6 +4,7 @@ import login from "../assets/login.png";
 import icon from "../assets/icon.png";
 import { usePost } from "../hooks/usePost";
 import { useNavigate } from "react-router-dom";
+import "../styles/nav.css"
 export const LoginCadastro = () => {
     const [modoCadastro, setModoCadastro] = useState(false);
     const [nome, setNome] = useState("");
@@ -15,7 +16,7 @@ export const LoginCadastro = () => {
     const url = modoCadastro
         ? "http://localhost:8080/v1/associados"
         : "http://localhost:8080/v1/associados/login";
-    const navigate = useNavigate();
+    const navegar = useNavigate();
 
     const alternarModo = () => {
         setModoCadastro(!modoCadastro);
@@ -66,8 +67,7 @@ export const LoginCadastro = () => {
     };
     useEffect(() => {
         if (resposta && !modoCadastro) {
-            console.log(resposta)
-            navigate(`/MainPage/${resposta.id}`);
+            navegar(`/MainPage/${resposta.id}`);
 
         }
     }, [resposta]);

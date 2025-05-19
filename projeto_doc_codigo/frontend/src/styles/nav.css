@@ -1,0 +1,11 @@
+.nomeUsuario{
+
+     color: #900000;
+      font-size: 70px;
+}
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
