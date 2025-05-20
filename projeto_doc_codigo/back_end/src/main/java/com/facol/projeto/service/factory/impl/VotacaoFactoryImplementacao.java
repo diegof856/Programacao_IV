@@ -1,10 +1,13 @@
 package com.facol.projeto.service.factory.impl;
 
+import java.time.Duration;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.facol.projeto.dto.VotacaoResponseDTO;
+import com.facol.projeto.enums.StatusVotacao;
+import com.facol.projeto.model.Pauta;
 import com.facol.projeto.model.Votacao;
 import com.facol.projeto.service.factory.PautaFactory;
 import com.facol.projeto.service.factory.VotacaoFactory;
@@ -30,6 +33,13 @@ public class VotacaoFactoryImplementacao implements VotacaoFactory {
 				votacao.getVotos().size(),votacao.getStatusVotacao(),
 				this.pautaFactory.criarPautaResponseDTO(votacao.getPauta()), 
 				votacao.getVotos().stream().map(this.votoFactory::criarResponseVotoDTO).collect(Collectors.toSet()));
+	}
+	@Override
+	public Votacao criarVotacao(Pauta pauta) {
+
+		return new Votacao(null, pauta.getDataCricao(), pauta,
+				pauta.getDataCricao().plus(Duration.ofMinutes(pauta.getTempoVotacao())), StatusVotacao.EM_ANDAMENTO);
+
 	}
 	
 

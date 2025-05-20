@@ -43,7 +43,7 @@ public class PautaController {
     @PostMapping("{id}")
     public ResponseEntity<Void> adicionarPauta(@PathVariable Long id,@RequestBody PautaRequestDTO pautaDTO){
     	
-    this.pautaCadastrarAlterarService.cadastrarPauta(associadoService.buscarAssociadorPorId(id),pautaDTO);
+    this.pautaCadastrarAlterarService.cadastrarPauta(this.associadoService.buscarAssociadorPorId(id),pautaDTO);
     
     return new ResponseEntity<>(HttpStatus.CREATED);
     }

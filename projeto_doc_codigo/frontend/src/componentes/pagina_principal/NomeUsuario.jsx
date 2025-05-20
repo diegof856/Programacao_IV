@@ -17,8 +17,8 @@ const NomeUsuario = ({id}) => {
          navigate(`/`);
     }
     return (
-        <nav>
-            <p className="nomeUsuario">{nome}</p>
+        <nav className="barra-superior">
+            <p className="nome-usuario">{nome}</p>
            <button className = "botao-deslogar "onClick={sair}>Sair</button>
         </nav>
     )

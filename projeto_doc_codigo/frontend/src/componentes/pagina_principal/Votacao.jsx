@@ -1,4 +1,4 @@
-
+/* <<<<<PODERA SER USADO >>>>>>>
 import { useGet } from "../../hooks/useGet";
 import React, { useState, useEffect } from "react";
 const Votacao = () =>{
@@ -13,7 +13,7 @@ const Votacao = () =>{
                
             }
         }, [dados]);
-        console.log(votacoes)
+       
 
         return(
             <section className="conteudo-principal">
@@ -49,4 +49,4 @@ const Votacao = () =>{
             </section>
         )
 }
-export default Votacao;
+export default Votacao;*/

@@ -13,7 +13,8 @@ public interface VotacaoConsultaService {
 	VotacaoResponseDTO consultarVotacao(Long id);
 
 	VotacaoResponseDTO buscarVotacaoPorPauta(Long id);
-	
+
 	void computarVotos(Voto voto);
+
 	Votacao buscarVotacao(Long id);
 }

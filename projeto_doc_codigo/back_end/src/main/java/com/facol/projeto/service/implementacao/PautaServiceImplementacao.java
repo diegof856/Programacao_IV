@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 import com.facol.projeto.dto.PautaRequestDTO;
 import com.facol.projeto.dto.PautaResponseDTO;
 import com.facol.projeto.enums.StatusPauta;
-import com.facol.projeto.exceptions.PautaNaoEncontrada;
+import com.facol.projeto.exceptions.PautaNaoEncontradaExceptions;
+import com.facol.projeto.exceptions.PautaReprovadaExceptions;
 import com.facol.projeto.model.Associado;
 import com.facol.projeto.model.Pauta;
 import com.facol.projeto.repositories.PautaRepositorio;
 import com.facol.projeto.repositories.VotacaoRepositorio;
+import com.facol.projeto.service.CadastrarAlterarVotacao;
 import com.facol.projeto.service.PautaCadastrarAlterarService;
 import com.facol.projeto.service.PautaConsultarService;
 import com.facol.projeto.service.VotacaoConsultaService;
@@ -28,18 +30,19 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 	@Autowired
 	private PautaRepositorio pautaRepositorio;
 	@Autowired
-	private VotacaoRepositorio votacaoRepositorio;
+	private CadastrarAlterarVotacao votacaoCadastrar;
 	@Autowired
 	private PautaFactory pautaFactory;
 
 	@Autowired
 	private VotacaoConsultaService votacaoService;
 	@Autowired
+	private VotacaoRepositorio votacaoRepositorio;
+	@Autowired
 	@Qualifier("TituloDescricaoValidacao")
 	private ValidacaoStrategy<PautaRequestDTO> validacaoStrategyTituloDescricao;
-	@Autowired
-	@Qualifier("TempoVotacaoValidacao")
-	private ValidacaoStrategy<Pauta> validacaoStrategyTempo;
+	
+
 
 	@Override
 	public void cadastrarPauta(Associado associado, PautaRequestDTO pautaRequestDTO) {
@@ -50,20 +53,23 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 	}
 
 	private void abrirVotacao(Pauta pauta) {
-		validacaoStrategyTempo.validacao(pauta);
-		if (pauta.getEstadoPauta() == StatusPauta.EM_VOTOCAO) {
-
-			votacaoRepositorio.save(pautaFactory.criarVotacao(pauta));
-		}
-
+		this.votacaoCadastrar.abrirVotacao(pauta);
 	}
 
 	@Override
 	public void alterarPauta(Long id, PautaRequestDTO requestDTO) {
+		
 		Pauta pauta = this.pegarPautaDB(id);
-		pauta.setDescricao(requestDTO.getDescricao());
-		pauta.setTitulo(requestDTO.getTitulo());
-		this.pautaRepositorio.save(pauta);
+		if(pauta.getEstadoPauta() == StatusPauta.EM_VOTOCAO) {
+			pauta.setDescricao(requestDTO.getDescricao());
+			pauta.setTitulo(requestDTO.getTitulo());
+			pauta.setTempoVotacao(requestDTO.getTempoVotacao());
+			this.pautaRepositorio.save(pauta);
+			this.votacaoCadastrar.atualizarVotacao(pauta);
+		}else {
+			throw new PautaReprovadaExceptions();
+		}
+		
 	}
 
 	@Override
@@ -88,7 +94,7 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 	}
 
 	private Pauta pegarPautaDB(Long id) {
-		Pauta pauta = this.pautaRepositorio.findById(id).orElseThrow(() -> new PautaNaoEncontrada());
+		Pauta pauta = this.pautaRepositorio.findById(id).orElseThrow(() -> new PautaNaoEncontradaExceptions());
 		this.votacaoService.buscarVotacaoPorPauta(id);
 		;
 		return pauta;
@@ -96,6 +102,7 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 
 	@Override
 	public void deletarPauta(Long id) {
+		this.votacaoRepositorio.deleteById(this.pegarPautaDB(id).getVotacao().getIdVotacao());
 		this.pautaRepositorio.deleteById(id);
 
 	}

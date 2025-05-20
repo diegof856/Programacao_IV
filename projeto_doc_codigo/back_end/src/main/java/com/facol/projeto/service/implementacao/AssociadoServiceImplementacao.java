@@ -12,7 +12,7 @@ import com.facol.projeto.dto.AssociadoRequestDTO;
 import com.facol.projeto.dto.AssociadoResponseDTO;
 import com.facol.projeto.dto.LoginRequestDTO;
 import com.facol.projeto.dto.LoginResponseDTO;
-import com.facol.projeto.exceptions.AssociadoNaoEncontrado;
+import com.facol.projeto.exceptions.AssociadoNaoEncontradoExceptions;
 import com.facol.projeto.exceptions.SenhaIncorretaException;
 import com.facol.projeto.model.Associado;
 import com.facol.projeto.repositories.AssociadoRepositorio;
@@ -24,20 +24,26 @@ import com.facol.projeto.service.validacao.ValidacaoStrategy;
 
 @Service
 public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracaoService, AssociadoConsultaService {
-	@Autowired
-	private AssociadoRepositorio associadoRepository;
-	@Autowired
-	private AssociadoFactory associadoFactory;
-	@Autowired
-	private PautaConsultarService pautaService;
+	
+	private final AssociadoRepositorio associadoRepository;
+	
+	private final AssociadoFactory associadoFactory;
+	
+	private final PautaConsultarService pautaService;
 	@Autowired
 	@Qualifier("cpfValidacao")
 	private ValidacaoStrategy<String> validacaoStrategy;
-
-
 	@Autowired
 	@Qualifier("nomeValidacao")
 	private ValidacaoStrategy<String> validacaoStrategyNome;
+
+	public AssociadoServiceImplementacao(AssociadoRepositorio associadoRepositorio, AssociadoFactory associadoFactory, PautaConsultarService pautaService) {
+		this.associadoFactory = associadoFactory;
+		this.associadoRepository = associadoRepositorio;
+		this.pautaService = pautaService;
+	
+	}
+	
 
 	@Override
 	public void cadastrarAssociado(AssociadoRequestDTO associadoRequestDTO) {
@@ -62,7 +68,7 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 	@Override
 	public Associado buscarAssociadorPorId(Long id) {
 		Optional<Associado> objAssociado = associadoRepository.findById(id);
-		objAssociado.orElseThrow(() -> new AssociadoNaoEncontrado());
+		objAssociado.orElseThrow(() -> new AssociadoNaoEncontradoExceptions());
 		this.pautaService.pegarPautaParaAtualizar(objAssociado.get().getPauta());
 		return objAssociado.get();
 	}
@@ -73,7 +79,7 @@ public class AssociadoServiceImplementacao implements AssociadoCadastroAlteracao
 	}
 	@Override
 	public LoginResponseDTO buscarPorCpf(LoginRequestDTO loginRequest) {
-		Associado associado = this.associadoRepository.findByCpf(loginRequest.getCpf()).orElseThrow(() -> new AssociadoNaoEncontrado());
+		Associado associado = this.associadoRepository.findByCpf(loginRequest.getCpf()).orElseThrow(() -> new AssociadoNaoEncontradoExceptions());
 		if(!associado.getSenha().equalsIgnoreCase(loginRequest.getSenha())) {
 			throw new SenhaIncorretaException();
 		}

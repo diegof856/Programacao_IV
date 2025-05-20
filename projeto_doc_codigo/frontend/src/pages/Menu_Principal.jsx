@@ -4,9 +4,11 @@ import NomeUsuario from "../componentes/pagina_principal/NomeUsuario";
 import ImagemLateral from "../componentes/pagina_principal/ImagemLateral";
 import ListaVotacoesAbertas from "../componentes/pagina_principal/ListaVotacoesAbertas";
 import Votacao from "../componentes/pagina_principal/Votacao";
+import Footer from "../componentes/footer/Footer"
+import { useState } from "react";
 export const MenuPrincipal = () => {
     const { id } = useParams();
-
+    const [mostrarImg, setMostrarImg] = useState(true);
 
     return (
         <div className="menu">
@@ -14,12 +16,16 @@ export const MenuPrincipal = () => {
                 <NomeUsuario id={id} />
             </header>
             <main>
-                <ImagemLateral />
-                <ListaVotacoesAbertas id={id} />
-                <Votacao/>
-            </main>
-            <footer>
+                {mostrarImg && <ImagemLateral />}
 
+                <ListaVotacoesAbertas id={id} setMostrarImg={setMostrarImg} />
+                {
+                    /*<Votacao />*/
+                }
+            </main>
+
+            <footer className="rodape">
+                <Footer />
             </footer>
         </div>
 
