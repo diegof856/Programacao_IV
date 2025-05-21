@@ -1,5 +1,0 @@
-package com.facol.projeto.exceptions;
-
-public class SenhaIncorretaException {
-
-}
