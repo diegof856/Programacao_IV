@@ -16,11 +16,13 @@ const ListaVotacoesAbertas = ({ id, setMostrarImg }) => {
     useEffect(() => {
         setVotacaoAbertas([])
         if (dados) {
-
+          
             setVotacaoAbertas(dados.content);
         }
     }, [dados]);
+      
     const abrirVotacao = () => {
+
         if (!abrirMoldalVotacao) {
             setAbriModalVoto(false)
             setAbriModalVotacao(true);
@@ -36,7 +38,7 @@ const ListaVotacoesAbertas = ({ id, setMostrarImg }) => {
     const votar = (idPauta) => {
 
         if (!abrirModalVoto) {
-            setIdPauta("")
+           
             setAbriModalVoto(true);
             setMostrarImg(false)
 

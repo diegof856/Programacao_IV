@@ -1,0 +1,17 @@
+.barra-sim, .barra-nao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    height: 30px;
+    transition: width 0.8s ease-in-out; 
+}
+
+.barra-sim {
+    background-color: #228B22; 
+}
+
+.barra-nao {
+    background-color: #1E90FF; 
+}

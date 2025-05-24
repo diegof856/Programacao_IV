@@ -1,32 +1,38 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { usePost } from "../../hooks/usePost";
 import { useNavigate } from "react-router-dom";
+import Erro from "../errocorreto/Erro";
+
 const CriarVotacao = ({ id, setAbriModalVotacao, setMostrarImg }) => {
-    
+
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
     const [tempoVotacao, setTempoVotacao] = useState("");
-    const { httpConfig, carregamento } = usePost();
+   
+    const { httpConfig, carregamento, erro } = usePost();
     const url = `http://localhost:8080/v1/pautas/${id}`;
-    
+
     const navegar = useNavigate();
     const subirFormulario = async (e) => {
-       
+
         e.preventDefault();
+       
         const pauta = {
             titulo,
             descricao,
             tempoVotacao
         }
-
+       
         httpConfig(pauta, "POST", url);
-        navegar(`/MainPage/${id}`);
+       
     }
-    const cancelar = ()=>{
+    const cancelar = () => {
         setAbriModalVotacao(false);
         setMostrarImg(true);
         navegar(`/MainPage/${id}`);
     }
+
+   
     return (
         <form onSubmit={subirFormulario} className="caixa-votacao-aberta">
             <h3>Nova Votação</h3>
@@ -40,6 +46,8 @@ const CriarVotacao = ({ id, setAbriModalVotacao, setMostrarImg }) => {
             <label>
                 <input type="number" value={tempoVotacao} name="tempoVotacao" placeholder="Tempo que a votação (60 min max)" autoComplete="off" onChange={(e) => setTempoVotacao(e.target.value)} />
             </label>
+         
+            {erro && erro.status && erro && erro.mensagem && <Erro status={erro.status} mensagem={erro.mensagem} />}
             <div className="botoes-acoes">
                 {carregamento && <button className="btn-editar" type="submit" >Aguarde</button>}
                 {!carregamento && <button className="btn-editar" type="submit" >Criar</button>}

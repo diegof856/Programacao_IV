@@ -1,6 +1,7 @@
 import { useGet } from "../../hooks/useGet";
 import React, { useState, useEffect } from "react";
 import "../../styles/MenuPrincipal.css";
+import icon from "../../assets/icon.png";
 import { useNavigate } from "react-router-dom";
 const NomeUsuario = ({id}) => {
     const urlUsuario = `http://localhost:8080/v1/associados/${id}`;
@@ -19,6 +20,10 @@ const NomeUsuario = ({id}) => {
     return (
         <nav className="barra-superior">
             <p className="nome-usuario">{nome}</p>
+            <div className = "coluna imagem-logo">
+            <img src={icon} alt="Logo"/>
+            </div>
+        
            <button className = "botao-deslogar "onClick={sair}>Sair</button>
         </nav>
     )

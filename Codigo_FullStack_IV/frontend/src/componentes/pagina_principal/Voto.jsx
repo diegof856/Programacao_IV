@@ -2,13 +2,16 @@ import { useGet } from "../../hooks/useGet";
 import { usePost } from "../../hooks/usePost";
 import Btns from "../btns/BtnVoto";
 import { useState, useEffect } from "react";
-const Voto = ({ idAssociado, idPauta, setAbriModalVoto, setAbrirMoldalVotacao, setMostrarImg, setEditar}) => {
+import AtualizarParcial from "./AtualizarParcial";
+import Erro from "../errocorreto/Erro";
+const Voto = ({ idAssociado, idPauta, setAbriModalVoto, setAbrirMoldalVotacao, setMostrarImg, setEditar }) => {
     const [idVotacao, setIdVotacao] = useState("");
-    
+
     const urlVotacao = `http://localhost:8080/v1/votacoes/pauta/${idPauta}`;
     const urlVotar = `http://localhost:8080/v1/votos/${idAssociado}/${idVotacao}`;
+    
     const { httpConfig, carregamento, erro, limparErro } = usePost();
-   
+
     const { dados } = useGet(urlVotacao);
     const [totalVotos, setTotalVotos] = useState("");
     const [pauta, setPauta] = useState("");
@@ -18,12 +21,12 @@ const Voto = ({ idAssociado, idPauta, setAbriModalVoto, setAbrirMoldalVotacao, s
 
     }, []);
     useEffect(() => {
-       
+
         if (dados) {
-          
+
             setIdVotacao(dados.id);
             setPauta(dados.pauta);
-            setTotalVotos(dados.Quantidade_Votos)
+            setTotalVotos(dados.quantidade_votos)
         }
     }, [dados]);
 
@@ -44,29 +47,25 @@ const Voto = ({ idAssociado, idPauta, setAbriModalVoto, setAbrirMoldalVotacao, s
 
     return (
         <article className="caixa-votacao-aberta">
-            <h3>Opção de votação</h3>
+            <h3>{pauta.titulo}</h3>
+            <p>Criada por <strong>{pauta.autor}</strong></p>
             {carregamento ? (
                 <p>Carregando...</p>
             ) : (
-                <div >
-                    <h3>{pauta.titulo}</h3>
-                    <p>Criada por <strong>{pauta.autor}</strong></p>
+                <>
+                    <AtualizarParcial idVotacao={idVotacao}/>
                     <div className="botoes-opcoes">
                         <button className="botao-votar-um" onClick={computarVotoSim}>SIM</button>
                         <button className="botao-votar-dois" onClick={computarVotoNao}>NÃO</button>
                     </div>
                     <p>Total de pessoas que votaram: {totalVotos}</p>
-                    <Btns setAbriModalVoto={setAbriModalVoto} setAbrirMoldalVotacao={setAbrirMoldalVotacao} setMostrarImg={setMostrarImg} pauta = {pauta} idAssociado={idAssociado} setEditar={setEditar} />
+                    {erro && erro.status && erro && erro.mensagem  && <Erro status={erro.status} mensagem={erro.mensagem}/>}
+                    <Btns setAbriModalVoto={setAbriModalVoto} setAbrirMoldalVotacao={setAbrirMoldalVotacao} setMostrarImg={setMostrarImg} pauta={pauta} idAssociado={idAssociado} setEditar={setEditar} />
 
-                </div>
-
-            )}
-            {erro && (
-                <>
-                    <p>{erro.status}</p>
-                    <p>{erro.mensagem}</p>
                 </>
+
             )}
+
         </article>
 
     )

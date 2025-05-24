@@ -24,7 +24,7 @@ const BtnVoto = ({ setEditar, setAbrirMoldalVotacao, setAbriModalVoto, setMostra
 
         <div className="botoes-acoes espacamento-superior">
 
-            <button onClick={voltar}>voltar</button>
+            <button onClick={voltar} className="btn-voltar">Voltar</button>
 
             {pauta.idAutor === idAssociado && (
                 <>

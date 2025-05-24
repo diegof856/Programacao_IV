@@ -40,14 +40,19 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 	@Qualifier("TituloDescricaoValidacao")
 	private ValidacaoStrategy<PautaRequestDTO> validacaoStrategyTituloDescricao;
 	
-
+	@Autowired
+	@Qualifier("TempoVotacaoValidacao")
+	private ValidacaoStrategy<Pauta> validacaoTempoExcedido;
 
 	@Override
 	public void cadastrarPauta(Associado associado, PautaRequestDTO pautaRequestDTO) {
 		this.validacaoStrategyTituloDescricao.validacao(pautaRequestDTO);
+		
 		Pauta pauta = this.pautaFactory.criarPauta(pautaRequestDTO, associado);
+		this.validacaoTempoExcedido.validacao(pauta);
 		pautaRepositorio.save(pauta);
 		abrirVotacao(pauta);
+		
 	}
 
 	private void abrirVotacao(Pauta pauta) {
@@ -58,7 +63,9 @@ public class PautaServiceImplementacao implements PautaCadastrarAlterarService, 
 	public void alterarPauta(Long id, PautaRequestDTO requestDTO) {
 		
 		Pauta pauta = this.pegarPautaDB(id);
+		this.validacaoTempoExcedido.validacao(pauta);
 		if(pauta.getEstadoPauta() == StatusPauta.EM_VOTOCAO) {
+			
 			this.pautaRepositorio.save(this.pautaFactory.alterarPauta(requestDTO, pauta));
 			this.votacaoCadastrar.atualizarVotacao(this.pautaFactory.alterarPauta(requestDTO, pauta));
 		}else {

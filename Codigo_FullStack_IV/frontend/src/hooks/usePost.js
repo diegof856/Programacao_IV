@@ -6,10 +6,10 @@ export const usePost = () => {
     const [url, setUrl] = useState(null);
     const [carregamento, setCarregamento] = useState(false);
     const [erro, setErro] = useState(null);
+    const [requisicaoCorreta,setRequisicaoCorreta] = useState(false);
     const [resposta, setResposta] = useState(null)
+
     const httpConfig = (dados, metodo, novaUrl) => {
-       
-        
 
         setConfig({
             method: metodo,
@@ -19,26 +19,36 @@ export const usePost = () => {
             body: JSON.stringify(dados)
         })
         setMetodo(metodo);
-        setUrl(novaUrl)
+        setUrl(novaUrl);
     };
-     const limparErro = () => setErro(null);
+     const limparErro = () => {
+        setErro(null);
+      
+    };
     useEffect(() => {
         const httpRequest = async () => {
             if (!config) return;
-            setCarregamento(true);
+         
+           
             try {
-             const requisicao = await fetch(url, config);
+                const requisicao = await fetch(url, config);
+                 
                 if (!requisicao.ok) {
-                    const erroTexto = await requisicao.json();
                   
-                    throw {mensagem: erroTexto.mensagem, status: erroTexto.status};
+                    const erroTexto = await requisicao.json();
+
+                    throw { mensagem: erroTexto.mensagem, status: erroTexto.status };
                 }
-               setResposta(await requisicao.json());
+                setRequisicaoCorreta(true)
+            
+                setResposta(await requisicao.json());
+               
             } catch (error) {
                 setErro({
                     mensagem: error.mensagem,
                     status: error.status
                 });
+                setRequisicaoCorreta(false)
                 return null;
             } finally {
                 setCarregamento(false);
@@ -47,5 +57,5 @@ export const usePost = () => {
         };
         httpRequest();
     }, [config, metodo, url])
-    return { httpConfig, carregamento, erro, limparErro, resposta}
+    return { httpConfig, carregamento, erro, limparErro, resposta,requisicaoCorreta }
 };

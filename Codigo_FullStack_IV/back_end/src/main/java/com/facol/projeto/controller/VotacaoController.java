@@ -1,5 +1,7 @@
 package com.facol.projeto.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -34,5 +36,9 @@ public class VotacaoController {
 	@GetMapping("pauta/{idPauta}")
 	public ResponseEntity<VotacaoResponseDTO> pegarVotacaoPorPauta(@PathVariable Long idPauta){
 		return ResponseEntity.ok(this.votacaoService.buscarVotacaoPorPauta(idPauta));
+	}
+	@GetMapping("quantidadeVotos/{idVotacao}")
+	public ResponseEntity<List<Long>> pegarPocentagem(@PathVariable Long idVotacao){
+		return ResponseEntity.ok(this.votacaoService.buscarPocentagemVotos(idVotacao));
 	}
 }

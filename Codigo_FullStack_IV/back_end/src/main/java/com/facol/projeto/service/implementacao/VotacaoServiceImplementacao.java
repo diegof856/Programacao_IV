@@ -1,6 +1,9 @@
 package com.facol.projeto.service.implementacao;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.facol.projeto.dto.VotacaoResponseDTO;
 import com.facol.projeto.enums.StatusPauta;
-import com.facol.projeto.enums.StatusVotacao;
 import com.facol.projeto.enums.TipoVoto;
 import com.facol.projeto.exceptions.AssociadoVotoDuplicadoException;
 import com.facol.projeto.exceptions.VotacaoNaoEncontradaException;
@@ -24,8 +26,6 @@ import com.facol.projeto.service.VotacaoConsultaService;
 import com.facol.projeto.service.factory.VotacaoFactory;
 import com.facol.projeto.service.validacao.ValidacaoStrategy;
 
-import java.time.Duration;
-
 @Service
 public class VotacaoServiceImplementacao implements VotacaoConsultaService, CadastrarAlterarVotacao {
 
@@ -35,6 +35,10 @@ public class VotacaoServiceImplementacao implements VotacaoConsultaService, Cada
 	@Autowired
 	@Qualifier("TempoVotacaoValidacao")
 	private ValidacaoStrategy<Pauta> validacaoTempoExcedido;
+
+	@Autowired
+	@Qualifier("FinalizarVotacao")
+	private ValidacaoStrategy<Votacao> finalizarVotação;
 
 	public VotacaoServiceImplementacao(VotacaoRepositorio votacaoRepositorio, VotacaoFactory votacaoFactory,
 			ValidacaoStrategy<Pauta> validacaoStrategyTempo) {
@@ -78,28 +82,35 @@ public class VotacaoServiceImplementacao implements VotacaoConsultaService, Cada
 	public void atualizarVotacao(Pauta pauta) {
 		this.validacaoStrategyTempo.validacao(pauta);
 		Votacao votacao = votacaoRepositorio.findByPauta_Id(pauta.getId_pauta());
-		this.verificarTempoFim(votacao,pauta);
+		this.verificarTempoFim(votacao, pauta);
 		votacao.setDataFim(votacao.getDataInicio().plus(Duration.ofMinutes(pauta.getTempoVotacao())));
 		this.votacaoRepositorio.save(votacao);
 	}
+
 	private void verificarTempoFim(Votacao votacao, Pauta pauta) {
-		if(votacao.getDataInicio().isAfter(pauta.getDataCricao())) {
+		if (votacao.getDataInicio().isAfter(pauta.getDataCricao())) {
 			votacao.setDataInicio(pauta.getDataCricao());
 		}
 	}
 
 	private void atualizarVotacaoParaDeterminarVencendor(Votacao votacao) {
 		if (Instant.now().isAfter(votacao.getDataFim())) {
-			votacao.setStatusVotacao(StatusVotacao.FINALIZADA);
-			long votosSim = votacao.getVotos().stream().filter(voto -> voto.getStatusVoto() == TipoVoto.SIM).count();
-			long votosNao = votacao.getVotos().stream().filter(voto -> voto.getStatusVoto() == TipoVoto.NAO).count();
-			if (votosSim > votosNao) {
+			this.finalizarVotação.validacao(votacao);
+			if (this.calcularVotosSim(votacao) > calcularVotosNao(votacao)) {
 				votacao.getPauta().setEstadoPauta(StatusPauta.APROVADA);
 			} else {
 				votacao.getPauta().setEstadoPauta(StatusPauta.REPROVADA);
 			}
 			this.votacaoRepositorio.save(votacao);
 		}
+	}
+
+	private Long calcularVotosSim(Votacao votacao) {
+		return votacao.getVotos().stream().filter(voto -> voto.getStatusVoto() == TipoVoto.SIM).count();
+	}
+
+	private Long calcularVotosNao(Votacao votacao) {
+		return votacao.getVotos().stream().filter(voto -> voto.getStatusVoto() == TipoVoto.NAO).count();
 	}
 
 	@Override
@@ -121,6 +132,28 @@ public class VotacaoServiceImplementacao implements VotacaoConsultaService, Cada
 		}
 		voto.getVotacao().getVotos().add(voto);
 
+	}
+
+	@Override
+	public List<Long> buscarPocentagemVotos(Long idVotacao) {
+		Votacao votacao = this.buscarVotacao(idVotacao);
+		return this.porcentagem(votacao);
+	}
+
+	private List<Long> porcentagem(Votacao votacao) {
+		List<Long> porcentagem = new ArrayList<>();
+		if(votacao.getVotos().size() == 0) {
+			 porcentagem.add(50L);
+			 porcentagem.add(50L);
+			 return porcentagem;
+		}
+		else {
+
+	        porcentagem.add(Math.round(((double) this.calcularVotosSim(votacao).intValue() / votacao.getVotos().size()) * 100));
+	        porcentagem.add(Math.round(((double) (votacao.getVotos().size() - this.calcularVotosSim(votacao).intValue()) / votacao.getVotos().size()) * 100));
+				
+			return porcentagem;
+}
 	}
 
 }

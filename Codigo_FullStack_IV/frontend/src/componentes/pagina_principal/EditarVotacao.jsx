@@ -1,6 +1,7 @@
 import { usePut } from "../../hooks/usePut";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Erro from "../errocorreto/Erro";
 const EditarVotacao = ({ idPauta, idAssociado, setAbrirMoldalVotacao, setEditar, setMostrarImg }) => {
     const { httpPutConfig, carregamento, erro, limparErro } = usePut(`http://localhost:8080/v1/pautas/${idPauta}`);
     const [titulo, setTitulo] = useState("");
@@ -9,23 +10,25 @@ const EditarVotacao = ({ idPauta, idAssociado, setAbrirMoldalVotacao, setEditar,
     const navegar = useNavigate();
     const enviarEdicaoFormulario = async (e) => {
         e.preventDefault();
-        limparErro();
-
+        limparErro();   
+        setDescricao("");
+        setTitulo("");
+        setTempoVotacao("");
         const pauta = {
             titulo,
             descricao,
             tempoVotacao
         }
-        
-       
-       const sucesso = await httpPutConfig(pauta);
 
-    if (sucesso) {
-        setEditar(false);
-        setMostrarImg(true);
-        navegar(`/MainPage/${idAssociado}`);
-    }
-        
+
+        const sucesso = await httpPutConfig(pauta);
+
+        if (sucesso) {
+            setEditar(false);
+            setMostrarImg(true);
+            navegar(`/MainPage/${idAssociado}`);
+        }
+
 
 
     }
@@ -49,16 +52,13 @@ const EditarVotacao = ({ idPauta, idAssociado, setAbrirMoldalVotacao, setEditar,
             <label>
                 <input type="number" value={tempoVotacao} name="tempoVotacao" placeholder="Tempo que a votação (60 min max)" autoComplete="off" onChange={(e) => setTempoVotacao(e.target.value)} />
             </label>
+               {erro && erro.status && erro && erro.mensagem && <Erro status={erro.status} mensagem={erro.mensagem} />}
             <div className="botoes-acoes">
                 {carregamento && <button className="btn-editar" type="submit" disabled>Aguarde</button>}
                 {!carregamento && <button className="btn-editar" type="submit" >Editar</button>}
                 {!carregamento && <button className="btn-voltar" type="button" onClick={cancelar}>Cancelar</button>}
-                {erro && (
-                <>
-                    <p>{erro.status}</p>
-                    <p>{erro.mensagem}</p>
-                </>
-            )}
+             
+
             </div>
 
         </form>

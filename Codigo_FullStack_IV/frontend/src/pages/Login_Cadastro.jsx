@@ -5,31 +5,37 @@ import icon from "../assets/icon.png";
 import { usePost } from "../hooks/usePost";
 import { useNavigate } from "react-router-dom";
 import "../styles/nav.css"
+import Erro from "../componentes/errocorreto/Erro";
+import Correto from "../componentes/errocorreto/Correto";
 export const LoginCadastro = () => {
     const [modoCadastro, setModoCadastro] = useState(false);
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
     const [senha, setSenha] = useState("");
     const [mensagemErro, setMensagemErro] = useState("");
+    const [mensagemSucesso, setMensagemSucesso] = useState(false);
 
-    const { httpConfig, carregamento, erro, limparErro, resposta } = usePost();
+    const { httpConfig, carregamento, erro, limparErro, resposta, requisicaoCorreta } = usePost();
     const url = modoCadastro
         ? "http://localhost:8080/v1/associados"
         : "http://localhost:8080/v1/associados/login";
     const navegar = useNavigate();
 
     const alternarModo = () => {
+
         setModoCadastro(!modoCadastro);
         setMensagemErro("");
         limparErro()
         setNome("");
         setCpf("");
         setSenha("");
+        setMensagemSucesso(false)
 
     };
 
     const realizarEnvio = () => {
-
+        
+        limparErro();
         if (modoCadastro && !nome) {
             setMensagemErro("Nome obrigatório.");
             return;
@@ -42,35 +48,30 @@ export const LoginCadastro = () => {
             setMensagemErro("Senha obrigatória.");
             return;
         }
-        const requisicao = {
-            nome,
-            cpf,
-            senha
-        }
+        const requisicao = modoCadastro
+            ? { nome, cpf, senha }
+            : { cpf, senha };
+
 
         httpConfig(requisicao, "POST", url);
-        if (!modoCadastro) {
-            realizarLogin(url);
-        }
-
 
     };
-    const realizarLogin = (url) => {
 
-        const requisicao = {
-            cpf,
-            senha
-        }
-
-        httpConfig(requisicao, "POST", url)
-
-    };
     useEffect(() => {
-        if (resposta && !modoCadastro) {
-            navegar(`/MainPage/${resposta.id}`);
 
+                              
+
+
+
+        if (modoCadastro && requisicaoCorreta && erro) {
+          setMensagemSucesso(true);
         }
-    }, [resposta]);
+
+        if (!modoCadastro && resposta) {
+
+            navegar(`/MainPage/${resposta.id}`);
+        }
+    }, [resposta, requisicaoCorreta, modoCadastro, carregamento, erro, navegar]);
 
 
 
@@ -136,6 +137,10 @@ export const LoginCadastro = () => {
                                 {mensagemErro && (!senha) ? "Senha incorreta." : ""}
                             </div>
                         </div>
+                        {erro && erro.status && erro && erro.mensagem && <Erro status={erro.status} mensagem={erro.mensagem} />}
+                        {mensagemSucesso && modoCadastro && (
+                            <Correto mensagem={"Cadastro realizado com sucesso"} />
+                        )}
 
                         {/* Link "Esqueceu a senha" */}
                         {!modoCadastro && (
@@ -168,13 +173,7 @@ export const LoginCadastro = () => {
                     <div className="texto-recuperar" onClick={alternarModo} >
                         {modoCadastro ? "Já tenho uma conta" : "Cadastre-se"}
                     </div>
-                    {erro && (
-                        <div className="mensagem-erro-geral">
-                            <p>{erro.status}</p>
-                            <p> {erro.mensagem}</p>
 
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
